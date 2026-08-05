@@ -1,33 +1,42 @@
 "use client";
 
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { api, setAccessToken, User } from "@/shared/lib/api";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { CredentialResponse } from "@react-oauth/google";
+import { Sparkles } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { FaGithub } from "react-icons/fa6";
-import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+import {
+  completeSignIn,
+  DEFAULT_AUTHENTICATED_ROUTE,
+  GitHubSignInButton,
+  GoogleSignInButton,
+  signInWithGoogle,
+} from "@/features/auth";
+import { Logo } from "@/shared/components/logo";
+import { Button } from "@/shared/components/ui/button";
+import { Separator } from "@/shared/components/ui/separator";
+import { api, User } from "@/shared/lib/api";
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
   const handleAuthSuccess = async (token: string) => {
-    setAccessToken(token);
-    await queryClient.resetQueries({ queryKey: ["me"] });
-    await queryClient.resetQueries({ queryKey: ["projects"] });
-    router.replace("/dashboard");
+    await completeSignIn(token, queryClient);
+    const nextPath = searchParams.get("next");
+    router.replace(nextPath?.startsWith("/") ? nextPath : DEFAULT_AUTHENTICATED_ROUTE);
   };
 
   const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
     try {
-      const data = await api.post<{ token: string; user: User }>("/auth/google", {
-        credential: credentialResponse.credential,
-      });
+      const data = await signInWithGoogle(credentialResponse.credential!);
       await handleAuthSuccess(data.token);
     } catch (error) {
       console.error("Google login failed:", error);
-      alert("Ошибка входа через Google");
+      alert("Google sign-in failed");
     }
   };
 
@@ -37,59 +46,95 @@ export default function LoginPage() {
       await handleAuthSuccess(data.token);
     } catch (error) {
       console.error("Dev login failed:", error);
-      alert("Dev login недоступен. Проверьте, что бэкенд запущен.");
+      alert("Dev login unavailable. Make sure the backend is running.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
-      <Card className="w-full max-w-md bg-slate-900 border-slate-800">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-white">MockGen</CardTitle>
-          <CardDescription className="text-slate-400">
-            Войдите, чтобы создавать Mock API
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex justify-center">
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => alert("Ошибка Google OAuth")}
-              theme="filled_black"
-              size="large"
-              text="signin_with"
-              shape="rectangular"
-            />
-          </div>
+    <div className="relative z-10 flex min-h-[calc(100vh-var(--layout-header-height))] items-center justify-center px-4 py-12">
+      <div className="relative w-full max-w-md">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-px rounded-[1.35rem] bg-linear-to-b from-blue-500/20 via-transparent to-indigo-500/10 blur-sm"
+        />
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-slate-700" />
+        <div className="relative overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/45 shadow-[0_0_60px_-15px_rgba(59,130,246,0.28)] backdrop-blur-xl">
+          <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blue-400/40 to-transparent" />
+
+          <div className="space-y-8 p-8 sm:p-10">
+            <div className="space-y-5 text-center">
+              <div className="flex justify-center">
+                <Logo href="/" showText={false} className="scale-110" />
+              </div>
+
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/50 px-3 py-1 text-xs text-slate-400">
+                  <Sparkles className="size-3 text-blue-400" />
+                  Secure OAuth 2.0
+                </div>
+                <h1 className="text-3xl font-bold tracking-tight text-white">
+                  Welcome to{" "}
+                  <span className="gradient-text">Levin API</span>
+                </h1>
+                <p className="text-sm leading-relaxed text-slate-400">
+                  Sign in to create mock endpoints, manage projects, and test your frontend faster.
+                </p>
+              </div>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-slate-900 px-2 text-slate-500">или</span>
+
+            <div className="space-y-3">
+              <GoogleSignInButton
+                onSuccess={handleGoogleSuccess}
+                onError={() => alert("Google OAuth error")}
+              />
+              <GitHubSignInButton />
             </div>
+
+            <div className="space-y-4">
+              <div className="relative">
+                <Separator className="bg-slate-800/80" />
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900/80 px-3 text-[11px] uppercase tracking-wider text-slate-500">
+                  developer
+                </span>
+              </div>
+
+              <Button
+                type="button"
+                variant="ghost"
+                className="h-10 w-full text-slate-500 hover:bg-slate-800/50 hover:text-slate-300"
+                onClick={handleDevLogin}
+              >
+                Dev Login (test)
+              </Button>
+            </div>
+
+            <p className="text-center text-xs leading-relaxed text-slate-500">
+              By continuing, you agree to our terms of service.
+              <br />
+              Need help?{" "}
+              <Link href="/docs" className="text-slate-400 underline-offset-4 hover:text-white hover:underline">
+                Read the docs
+              </Link>
+            </p>
           </div>
-
-          <Button
-            variant="outline"
-            className="w-full bg-slate-800 border-slate-700 text-white hover:bg-slate-700"
-            onClick={() => alert("GitHub OAuth будет добавлен позже")}
-          >
-            <FaGithub className="mr-2 h-4 w-4" />
-            Войти через GitHub
-          </Button>
-
-          {/* Временная кнопка для теста */}
-          <Button
-            variant="ghost"
-            className="w-full text-slate-500 hover:text-slate-300"
-            onClick={handleDevLogin}
-          >
-            Dev Login (тест)
-          </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
+  );
+}
+
+function LoginFallback() {
+  return (
+    <div className="relative z-10 flex min-h-[calc(100vh-var(--layout-header-height))] items-center justify-center">
+      <div className="size-8 animate-pulse rounded-full bg-slate-800" />
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginFallback />}>
+      <LoginForm />
+    </Suspense>
   );
 }

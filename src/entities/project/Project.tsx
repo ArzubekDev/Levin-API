@@ -9,6 +9,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { Container } from "@/shared/ui/Container";
 
 export function Project({ id }: { id: string }) {
   const [copied, setCopied] = useState(false);
@@ -41,7 +42,7 @@ export function Project({ id }: { id: string }) {
       if (error instanceof Error) {
         setTestResponse(error.message);
       } else {
-        setTestResponse("Ошибка запроса");
+        setTestResponse("Request failed");
       }
     } finally {
       setIsTesting(false);
@@ -49,21 +50,21 @@ export function Project({ id }: { id: string }) {
   };
 
   if (isLoading) {
-    return <div className="min-h-screen bg-slate-950 p-8 text-white">Загрузка...</div>;
+    return <div className="min-h-screen bg-slate-950 p-8 text-white">Loading...</div>;
   }
 
   if (!project) {
-    return <div className="min-h-screen bg-slate-950 p-8 text-white">Проект не найден</div>;
+    return <div className="min-h-screen bg-slate-950 p-8 text-white">Project not found</div>;
   }
 
   const resources = Object.keys(project.schemaJson);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-slate-950 text-white py-8">
+      <Container>
         <Link href="/dashboard" className="inline-flex items-center text-slate-400 hover:text-white mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Назад
+          Back
         </Link>
 
         <div className="flex items-start justify-between mb-6">
@@ -71,10 +72,10 @@ export function Project({ id }: { id: string }) {
             <h1 className="text-3xl font-bold">{project.name}</h1>
             <div className="flex gap-2 mt-2">
               <Badge variant="outline" className="border-slate-700 text-slate-400">
-                Задержка: {project.delay}ms
+                Delay: {project.delay}ms
               </Badge>
               <Badge variant="outline" className="border-slate-700 text-slate-400">
-                Ошибки: {project.errorRate}%
+                Errors: {project.errorRate}%
               </Badge>
             </div>
           </div>
@@ -122,7 +123,7 @@ export function Project({ id }: { id: string }) {
                       className="bg-blue-600 hover:bg-blue-700"
                     >
                       <Play className="mr-2 h-4 w-4" />
-                      {isTesting ? "Загрузка..." : "Тестировать"}
+                      {isTesting ? "Loading..." : "Test"}
                     </Button>
                   </div>
                 </CardHeader>
@@ -137,7 +138,7 @@ export function Project({ id }: { id: string }) {
             </TabsContent>
           ))}
         </Tabs>
-      </div>
+      </Container>
     </div>
   );
 }

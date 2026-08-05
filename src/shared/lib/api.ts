@@ -1,17 +1,12 @@
+import { clearAccessToken, getAccessToken } from "./access-token";
+
+export {
+  clearAccessToken,
+  getAccessToken,
+  setAccessToken,
+} from "./access-token";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "/backend";
-
-export function getAccessToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("accessToken");
-}
-
-export function setAccessToken(token: string) {
-  localStorage.setItem("accessToken", token);
-}
-
-export function clearAccessToken() {
-  localStorage.removeItem("accessToken");
-}
 
 class ApiClient {
   private baseUrl: string;

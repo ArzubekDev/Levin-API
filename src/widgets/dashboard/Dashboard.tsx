@@ -1,56 +1,28 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { api, getAccessToken, Project, User } from "@/shared/lib/api";
+import { authKeys, useSession } from "@/features/auth";
+import { api, Project } from "@/shared/lib/api";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { Container } from "@/shared/ui/Container";
 import { Plus, Trash2, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 export function Dashboard() {
-  const router = useRouter();
-  const token = useSyncExternalStore(
-    (onStoreChange) => {
-      window.addEventListener("storage", onStoreChange);
-      return () => window.removeEventListener("storage", onStoreChange);
-    },
-    getAccessToken,
-    () => null,
-  );
-
-  const { data: user, isLoading: userLoading, isError: userError, isFetched } = useQuery({
-    queryKey: ["me", token],
-    queryFn: () => api.get<User>("/auth/me"),
-    enabled: !!token,
-    retry: false,
-    staleTime: 0,
-  });
+  const { user, status, token } = useSession();
 
   const { data: projects, isLoading: projectsLoading, refetch } = useQuery({
-    queryKey: ["projects", token],
+    queryKey: authKeys.projects(token),
     queryFn: () => api.get<Project[]>("/projects"),
-    enabled: !!user,
+    enabled: status === "authenticated",
     retry: false,
   });
 
-  useEffect(() => {
-    const storedToken = getAccessToken();
-    if (!storedToken) {
-      router.replace("/login");
-      return;
-    }
-
-    if (isFetched && (userError || !user)) {
-      router.replace("/login");
-    }
-  }, [isFetched, userError, user, router]);
-
   const handleDelete = async (id: string) => {
-    if (!confirm("Удалить проект?")) return;
+    if (!confirm("Delete this project?")) return;
     try {
       await api.delete(`/projects/${id}`);
       refetch();
@@ -58,12 +30,12 @@ export function Dashboard() {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert("Произошла ошибка при удалении проекта");
+        alert("Failed to delete project");
       }
     }
   };
 
-  if (!token || userLoading) {
+  if (status !== "authenticated" || !user) {
     return (
       <div className="min-h-screen bg-slate-950 p-8">
         <Skeleton className="h-8 w-64 bg-slate-800" />
@@ -71,32 +43,28 @@ export function Dashboard() {
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   const canCreate = (user.projectsCount || 0) < user.maxProjects;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-8">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-slate-950 text-white py-8">
+      <Container>
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold">Мои проекты</h1>
+            <h1 className="text-3xl font-bold">My projects</h1>
             <p className="text-slate-400 mt-1">
-              {user.projectsCount} / {user.maxProjects} проектов
+              {user.projectsCount} / {user.maxProjects} projects
             </p>
           </div>
           {canCreate ? (
             <Link href="/projects/new">
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Plus className="mr-2 h-4 w-4" />
-                Новый проект
+                New project
               </Button>
             </Link>
           ) : (
             <Badge variant="secondary" className="bg-slate-800 text-slate-400">
-              Лимит достигнут
+              Limit reached
             </Badge>
           )}
         </div>
@@ -138,9 +106,9 @@ export function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-2 text-xs text-slate-500">
-                    <span>Задержка: {project.delay}ms</span>
+                    <span>Delay: {project.delay}ms</span>
                     <span>•</span>
-                    <span>Ошибки: {project.errorRate}%</span>
+                    <span>Errors: {project.errorRate}%</span>
                   </div>
                 </CardContent>
               </Card>
@@ -148,11 +116,11 @@ export function Dashboard() {
           </div>
         ) : (
           <div className="text-center py-20 text-slate-500">
-            <p className="text-lg">У вас пока нет проектов</p>
-            <p className="mt-2">Создайте первый Mock API</p>
+            <p className="text-lg">You don&apos;t have any projects yet</p>
+            <p className="mt-2">Create your first Mock API</p>
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

@@ -16,7 +16,7 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Levin API — Mock API Generator",
-  description: "Генератор фейковых API для практики и разработки",
+  description: "Fake API generator for practice and development",
 };
 
 export default function RootLayout({

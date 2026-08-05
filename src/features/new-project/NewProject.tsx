@@ -12,6 +12,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Container } from "@/shared/ui/Container";
 
 const DEFAULT_SCHEMA = {
   users: {
@@ -52,7 +53,7 @@ export function NewProject() {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert("Произошла ошибка при создании проекта");
+        alert("Failed to create project");
       }
     },
   });
@@ -68,30 +69,30 @@ export function NewProject() {
         errorRate: errorRate[0],
       });
     } catch {
-      alert("Невалидный JSON в схеме");
+      alert("Invalid JSON in schema");
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-8">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-slate-950 text-white py-8">
+      <Container size="narrow">
         <Link href="/dashboard" className="inline-flex items-center text-slate-400 hover:text-white mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Назад
+          Back
         </Link>
 
         <Card className="bg-slate-900 border-slate-800">
           <CardHeader>
-            <CardTitle>Новый Mock API</CardTitle>
+            <CardTitle>New Mock API</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label>Название проекта</Label>
+                <Label>Project name</Label>
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Мой магазин"
+                  placeholder="My store"
                   className="bg-slate-800 border-slate-700"
                   required
                 />
@@ -106,13 +107,13 @@ export function NewProject() {
                   required
                 />
                 <p className="text-xs text-slate-500">
-                  Опишите структуру данных. Ключ объекта = название ресурса (users, products и т.д.)
+                  Describe the data structure. Object key = resource name (users, products, etc.)
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <Label>Задержка ответа: {delay[0]}ms</Label>
+                  <Label>Response delay: {delay[0]}ms</Label>
                   <Slider
                     value={delay}
                     onValueChange={(value) => setDelay(value as number[])}
@@ -123,7 +124,7 @@ export function NewProject() {
                 </div>
 
                 <div>
-                  <Label>Шанс ошибки: {errorRate[0]}%</Label>
+                  <Label>Error rate: {errorRate[0]}%</Label>
                   <Slider
                     value={errorRate}
                     onValueChange={(value) => setErrorRate(value as number[])}
@@ -139,12 +140,12 @@ export function NewProject() {
                 className="w-full bg-blue-600 hover:bg-blue-700"
                 disabled={createMutation.isPending}
               >
-                {createMutation.isPending ? "Создание..." : "Создать API"}
+                {createMutation.isPending ? "Creating..." : "Create API"}
               </Button>
             </form>
           </CardContent>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 }
