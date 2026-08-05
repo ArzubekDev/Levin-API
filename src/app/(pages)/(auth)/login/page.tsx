@@ -1,127 +1,7 @@
-"use client";
+'use client';
 
-import { CredentialResponse } from "@react-oauth/google";
-import { Sparkles } from "lucide-react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-
-import {
-  completeSignIn,
-  DEFAULT_AUTHENTICATED_ROUTE,
-  GitHubSignInButton,
-  GoogleSignInButton,
-  signInWithGoogle,
-} from "@/features/auth";
-import { Logo } from "@/shared/components/logo";
-import { Button } from "@/shared/components/ui/button";
-import { Separator } from "@/shared/components/ui/separator";
-import { api, User } from "@/shared/lib/api";
-
-function LoginForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const queryClient = useQueryClient();
-
-  const handleAuthSuccess = async (token: string) => {
-    await completeSignIn(token, queryClient);
-    const nextPath = searchParams.get("next");
-    router.replace(nextPath?.startsWith("/") ? nextPath : DEFAULT_AUTHENTICATED_ROUTE);
-  };
-
-  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
-    try {
-      const data = await signInWithGoogle(credentialResponse.credential!);
-      await handleAuthSuccess(data.token);
-    } catch (error) {
-      console.error("Google login failed:", error);
-      alert("Google sign-in failed");
-    }
-  };
-
-  const handleDevLogin = async () => {
-    try {
-      const data = await api.post<{ token: string; user: User }>("/auth/dev-login", {});
-      await handleAuthSuccess(data.token);
-    } catch (error) {
-      console.error("Dev login failed:", error);
-      alert("Dev login unavailable. Make sure the backend is running.");
-    }
-  };
-
-  return (
-    <div className="relative z-10 flex min-h-[calc(100vh-var(--layout-header-height))] items-center justify-center px-4 py-12">
-      <div className="relative w-full max-w-md">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-px rounded-[1.35rem] bg-linear-to-b from-blue-500/20 via-transparent to-indigo-500/10 blur-sm"
-        />
-
-        <div className="relative overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/45 shadow-[0_0_60px_-15px_rgba(59,130,246,0.28)] backdrop-blur-xl">
-          <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blue-400/40 to-transparent" />
-
-          <div className="space-y-8 p-8 sm:p-10">
-            <div className="space-y-5 text-center">
-              <div className="flex justify-center">
-                <Logo href="/" showText={false} className="scale-110" />
-              </div>
-
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/50 px-3 py-1 text-xs text-slate-400">
-                  <Sparkles className="size-3 text-blue-400" />
-                  Secure OAuth 2.0
-                </div>
-                <h1 className="text-3xl font-bold tracking-tight text-white">
-                  Welcome to{" "}
-                  <span className="gradient-text">Levin API</span>
-                </h1>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Sign in to create mock endpoints, manage projects, and test your frontend faster.
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <GoogleSignInButton
-                onSuccess={handleGoogleSuccess}
-                onError={() => alert("Google OAuth error")}
-              />
-              <GitHubSignInButton />
-            </div>
-
-            <div className="space-y-4">
-              <div className="relative">
-                <Separator className="bg-slate-800/80" />
-                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900/80 px-3 text-[11px] uppercase tracking-wider text-slate-500">
-                  developer
-                </span>
-              </div>
-
-              <Button
-                type="button"
-                variant="ghost"
-                className="h-10 w-full text-slate-500 hover:bg-slate-800/50 hover:text-slate-300"
-                onClick={handleDevLogin}
-              >
-                Dev Login (test)
-              </Button>
-            </div>
-
-            <p className="text-center text-xs leading-relaxed text-slate-500">
-              By continuing, you agree to our terms of service.
-              <br />
-              Need help?{" "}
-              <Link href="/docs" className="text-slate-400 underline-offset-4 hover:text-white hover:underline">
-                Read the docs
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { Suspense } from 'react';
+import { MainContent } from './MainContent';
 
 function LoginFallback() {
   return (
@@ -134,7 +14,7 @@ function LoginFallback() {
 export default function LoginPage() {
   return (
     <Suspense fallback={<LoginFallback />}>
-      <LoginForm />
+      <MainContent />
     </Suspense>
   );
 }

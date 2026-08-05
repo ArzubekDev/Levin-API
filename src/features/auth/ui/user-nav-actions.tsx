@@ -1,26 +1,17 @@
-"use client";
+'use client';
 
-import {
-  BookOpen,
-  ChevronDown,
-  LayoutDashboard,
-  LogOut,
-  Settings,
-  UserRound,
-} from "lucide-react";
-import Link from "next/link";
-import type { ReactNode } from "react";
+import { ChevronDown, LogOut } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 
-import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/shared/components/ui/popover";
-import { Separator } from "@/shared/components/ui/separator";
-import type { User } from "@/shared/lib/api";
-import { cn } from "@/shared/lib/utils";
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
+import { Separator } from '@/shared/components/ui/separator';
+import type { User } from '@/shared/lib/api';
+import { cn } from '@/shared/lib/utils';
+import { USER_NAV_ITEMS } from '../model/consts';
 
 interface UserNavActionsProps {
   user: User;
@@ -28,7 +19,7 @@ interface UserNavActionsProps {
 }
 
 function getUserLabel(user: User) {
-  return user.name?.trim() || user.email.split("@")[0];
+  return user.name?.trim() || user.email.split('@')[0];
 }
 
 function getUserInitial(user: User) {
@@ -39,16 +30,17 @@ function formatPlan(plan: string) {
   return plan.charAt(0).toUpperCase() + plan.slice(1);
 }
 
-function UserAvatar({ user, size = "md" }: { user: User; size?: "md" | "lg" }) {
-  const sizeClass = size === "lg" ? "size-10 text-sm" : "size-7 text-xs";
+function UserAvatar({ user, size = 'md' }: { user: User; size?: 'md' | 'lg' }) {
+  const sizeClass = size === 'lg' ? 'size-10 text-sm' : 'size-7 text-xs';
 
   if (user.avatar) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={user.avatar}
-        alt=""
-        className={cn(sizeClass, "rounded-full object-cover ring-1 ring-border")}
+        alt="avatar"
+        className={cn(sizeClass, 'rounded-full object-cover ring-1 ring-border')}
+        width={40}
+        height={40}
       />
     );
   }
@@ -57,7 +49,7 @@ function UserAvatar({ user, size = "md" }: { user: User; size?: "md" | "lg" }) {
     <span
       className={cn(
         sizeClass,
-        "flex items-center justify-center rounded-full bg-linear-to-br from-primary/20 to-accent/30 font-semibold text-primary-foreground/90 ring-1 ring-border",
+        'flex items-center justify-center rounded-full bg-linear-to-br from-primary/20 to-accent/30 font-semibold text-primary-foreground/90 ring-1 ring-border',
       )}
     >
       {getUserInitial(user)}
@@ -70,20 +62,18 @@ function MenuItem({
   icon,
   children,
   onClick,
-  variant = "default",
+  variant = 'default',
 }: {
   href?: string;
   icon: ReactNode;
   children: ReactNode;
   onClick?: () => void;
-  variant?: "default" | "danger";
+  variant?: 'default' | 'danger';
 }) {
   const className = cn(
-    "flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
-    variant === "default" &&
-      "text-muted-foreground hover:bg-muted hover:text-foreground",
-    variant === "danger" &&
-      "text-destructive hover:bg-destructive/10 hover:text-destructive",
+    'flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors',
+    variant === 'default' && 'text-muted-foreground hover:bg-muted hover:text-foreground',
+    variant === 'danger' && 'text-destructive hover:bg-destructive/10 hover:text-destructive',
   );
 
   if (href) {
@@ -133,9 +123,7 @@ export function UserNavActions({ user, onSignOut }: UserNavActionsProps) {
         <div className="flex items-start gap-3 border-b border-border p-3">
           <UserAvatar user={user} size="lg" />
           <div className="min-w-0 flex-1 pt-0.5">
-            <p className="truncate text-sm font-medium text-foreground">
-              {getUserLabel(user)}
-            </p>
+            <p className="truncate text-sm font-medium text-foreground">{getUserLabel(user)}</p>
             <p className="truncate text-xs text-muted-foreground">{user.email}</p>
             <Badge
               variant="secondary"
@@ -147,18 +135,13 @@ export function UserNavActions({ user, onSignOut }: UserNavActionsProps) {
         </div>
 
         <div className="p-1.5">
-          <MenuItem href="/dashboard" icon={<LayoutDashboard />}>
-            Dashboard
-          </MenuItem>
-          <MenuItem href="/settings" icon={<Settings />}>
-            Settings
-          </MenuItem>
-          <MenuItem href="/dashboard" icon={<UserRound />}>
-            Profile
-          </MenuItem>
-          <MenuItem href="/docs" icon={<BookOpen />}>
-            Documentation
-          </MenuItem>
+          {USER_NAV_ITEMS.map((item) => {
+            return (
+              <MenuItem key={item.href} href={item.href} icon={item.icon}>
+                {item.label}
+              </MenuItem>
+            );
+          })}
         </div>
 
         <Separator className="bg-border" />

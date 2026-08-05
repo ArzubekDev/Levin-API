@@ -1,2 +1,3 @@
+/** Hover совпадает с базовым состоянием: у Google клики идут в iframe, CSS :hover на Button не работает. */
 export const oauthButtonClassName =
-  "h-11 w-full border-slate-700/80 bg-slate-800/80 text-sm font-medium text-white shadow-sm hover:border-slate-600 hover:bg-slate-700/90 hover:text-white";
+  "h-11 w-full cursor-pointer border-slate-700/80 bg-slate-800/80 text-sm font-medium text-white shadow-sm hover:border-slate-700/80 hover:bg-slate-800/80 hover:text-white dark:hover:bg-slate-800/80";

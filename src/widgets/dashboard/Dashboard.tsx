@@ -1,20 +1,22 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { authKeys, useSession } from "@/features/auth";
 import { api, Project } from "@/shared/lib/api";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { Badge } from "@/shared/components/ui/badge";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Container } from "@/shared/ui/Container";
 import { Plus, Trash2, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function Dashboard() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { user, status, token } = useSession();
 
-  const { data: projects, isLoading: projectsLoading, refetch } = useQuery({
+  const { data: projects, isLoading: projectsLoading } = useQuery({
     queryKey: authKeys.projects(token),
     queryFn: () => api.get<Project[]>("/projects"),
     enabled: status === "authenticated",
@@ -22,10 +24,9 @@ export function Dashboard() {
   });
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this project?")) return;
     try {
       await api.delete(`/projects/${id}`);
-      refetch();
+      await queryClient.invalidateQueries({ queryKey: authKeys.all });
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
@@ -45,8 +46,16 @@ export function Dashboard() {
 
   const canCreate = (user.projectsCount || 0) < user.maxProjects;
 
+  const handleNewProject = () => {
+    if (!canCreate) {
+      alert("To create more projects, you need to purchase a subscription.");
+      return;
+    }
+    router.push("/projects/new");
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white py-8">
+    <div className="min-h-screen bg-slate-950 text-white py-24">
       <Container>
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -55,18 +64,10 @@ export function Dashboard() {
               {user.projectsCount} / {user.maxProjects} projects
             </p>
           </div>
-          {canCreate ? (
-            <Link href="/projects/new">
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="mr-2 h-4 w-4" />
-                New project
-              </Button>
-            </Link>
-          ) : (
-            <Badge variant="secondary" className="bg-slate-800 text-slate-400">
-              Limit reached
-            </Badge>
-          )}
+          <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleNewProject}>
+            <Plus className="mr-2 h-4 w-4" />
+            New project
+          </Button>
         </div>
 
         {projectsLoading ? (

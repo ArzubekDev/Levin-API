@@ -12,7 +12,7 @@ export const HEADER_NAV_ITEMS = [
     href: '/create',
   },
   {
-    label: 'Rating of Users',
-    href: '/rating',
+    label: 'Generate API',
+    href: '/generate',
   },
 ] as const

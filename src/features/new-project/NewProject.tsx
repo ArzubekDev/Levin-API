@@ -4,6 +4,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { authKeys } from "@/features/auth";
 import { api } from "@/shared/lib/api";
 import { Label } from "@/shared/components/ui/label";
 import { Slider } from "@/shared/components/ui/slider";
@@ -45,8 +46,8 @@ export function NewProject() {
 
   const createMutation = useMutation({
     mutationFn: (data: CreateProjectInput) => api.post("/projects", data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: authKeys.all });
       router.push("/dashboard");
     },
     onError: (error: unknown) => {
@@ -74,7 +75,7 @@ export function NewProject() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white py-8">
+    <div className="min-h-screen bg-slate-950 text-white py-24">
       <Container size="narrow">
         <Link href="/dashboard" className="inline-flex items-center text-slate-400 hover:text-white mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
