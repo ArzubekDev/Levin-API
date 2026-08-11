@@ -4,10 +4,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useSyncExternalStore } from "react";
 
-import { authKeys } from "@/features/auth/model/auth-keys";
 import { signOut as performSignOut } from "@/features/auth/lib/session-actions";
-import { api, type User } from "@/shared/lib/api";
+import { authKeys } from "@/features/auth/model/auth-keys";
 import { getAccessToken, subscribeAccessToken } from "@/shared/lib/access-token";
+import { api, type User } from "@/shared/lib/api";
 
 export type SessionStatus = "loading" | "authenticated" | "unauthenticated";
 

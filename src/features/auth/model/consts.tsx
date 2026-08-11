@@ -1,4 +1,4 @@
-import { Settings, UserRound } from 'lucide-react';
+import { Settings, UserRound } from "lucide-react";
 
 type TUserNavItem = {
   label: string;
@@ -8,13 +8,13 @@ type TUserNavItem = {
 
 export const USER_NAV_ITEMS: TUserNavItem[] = [
   {
-    label: 'Profile',
-    href: '/profile',
+    label: "Profile",
+    href: "/profile",
     icon: <UserRound />,
   },
   {
-    label: 'Settings',
-    href: '/settings',
+    label: "Settings",
+    href: "/settings",
     icon: <Settings />,
   },
 ];

@@ -67,7 +67,7 @@ export function LightningBackground() {
         const branchStartIdx = Math.floor(Math.random() * (points.length - 4)) + 2;
         const origin = points[branchStartIdx];
         const branchPoints: Point[] = [origin];
-        
+
         let bx = origin.x;
         let by = origin.y;
         for (let i = 0; i < 4; i++) {
@@ -178,7 +178,7 @@ export function LightningBackground() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     bolts.push(generateBolt(canvas));
     lastBoltTime = performance.now();
-    
+
     animationId = requestAnimationFrame(animate);
 
     return () => {
@@ -187,10 +187,5 @@ export function LightningBackground() {
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
-    />
-  );
+  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-0" />;
 }

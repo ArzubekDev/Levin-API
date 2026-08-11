@@ -8,12 +8,7 @@ export function HeaderAuthSlot() {
   const { status, user, signOut } = useSession();
 
   if (status === "loading") {
-    return (
-      <div
-        className="h-8 w-28 animate-pulse rounded-lg bg-slate-800/80"
-        aria-hidden
-      />
-    );
+    return <div className="h-8 w-28 animate-pulse rounded-lg bg-slate-800/80" aria-hidden />;
   }
 
   if (status === "authenticated" && user) {

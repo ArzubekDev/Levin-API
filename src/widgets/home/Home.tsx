@@ -1,7 +1,8 @@
-import { Button } from '@/shared/components/ui/button';
-import { Container } from '@/shared/ui/Container';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import Link from "next/link";
+
+import { buttonVariants } from "@/shared/components/ui/button";
+import { cn } from "@/shared/lib/utils";
+import { Container } from "@/shared/ui/Container";
 
 export const Home = () => {
   return (
@@ -25,20 +26,23 @@ export const Home = () => {
         </p>
 
         <div className="flex items-center justify-center gap-4">
-          <Link href="/generate">
-            <Button size="lg" className="cursor-pointer bg-blue-600 px-8 text-white hover:bg-blue-700">
-              Generate API
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
+          <Link
+            href="/docs"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "w-40 rounded-sm bg-blue-500/55 text-white hover:bg-blue-500/65",
+            )}
+          >
+            EXPLORE NOW
           </Link>
-          <Link href="/docs">
-            <Button
-              size="lg"
-              variant="outline"
-              className="cursor-pointer border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
-            >
-              Documentation
-            </Button>
+          <Link
+            href="/projects/new"
+            className={cn(
+              buttonVariants({ size: "lg", variant: "outline" }),
+              "w-40 rounded-sm border-blue-600 text-slate-300 hover:bg-slate-800 hover:text-white",
+            )}
+          >
+            GET STARTED
           </Link>
         </div>
       </Container>

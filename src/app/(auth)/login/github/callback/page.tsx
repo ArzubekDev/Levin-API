@@ -5,8 +5,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
 
-import { completeSignIn } from "@/features/auth/lib/session-actions";
 import { validateGitHubOAuthState } from "@/features/auth/lib/github-oauth";
+import { completeSignIn } from "@/features/auth/lib/session-actions";
 import { signInWithGitHub } from "@/features/auth/lib/sign-in-providers";
 
 function GitHubCallbackContent() {

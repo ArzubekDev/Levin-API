@@ -1,17 +1,19 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
+
 import { GoogleProvider } from "./providers/google-provider";
 import { QueryProvider } from "./providers/query-provider";
 
-const inter = Inter({ 
-  subsets: ["latin", "cyrillic"], 
-  variable: "--font-sans" 
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-sans",
 });
 
-const jetbrains = JetBrains_Mono({ 
-  subsets: ["latin"], 
-  variable: "--font-mono" 
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -25,17 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${jetbrains.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col"> 
+    <html lang="en" className={`${inter.variable} ${jetbrains.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col">
         <QueryProvider>
-          <GoogleProvider>
-            {children}
-          </GoogleProvider>
+          <GoogleProvider>{children}</GoogleProvider>
         </QueryProvider>
-        </body>
+      </body>
     </html>
   );
 }

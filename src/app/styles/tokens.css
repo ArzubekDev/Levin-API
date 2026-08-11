@@ -1,0 +1,46 @@
+:root {
+  /* Тёмная тема по умолчанию — dev tool style */
+  --background: oklch(12.9% 0.042 264.695deg);
+  --foreground: oklch(98.5% 0 0deg);
+  --card: oklch(18% 0.03 270deg);
+  --card-foreground: oklch(98.5% 0 0deg);
+  --popover: oklch(18% 0.03 270deg);
+  --popover-foreground: oklch(98.5% 0 0deg);
+  --primary: oklch(58.8% 0.234 255.5deg);
+  --primary-foreground: oklch(98.5% 0 0deg);
+  --secondary: oklch(22% 0.03 270deg);
+  --secondary-foreground: oklch(98.5% 0 0deg);
+  --muted: oklch(22% 0.03 270deg);
+  --muted-foreground: oklch(65% 0.02 270deg);
+  --accent: oklch(58.5% 0.233 274.2deg);
+  --accent-foreground: oklch(98.5% 0 0deg);
+  --destructive: oklch(57.7% 0.245 27.325deg);
+  --border: oklch(100% 0 0deg / 10%);
+  --input: oklch(100% 0 0deg / 15%);
+  --ring: oklch(58.8% 0.234 255.5deg);
+  --chart-1: oklch(58.8% 0.234 255.5deg);
+  --chart-2: oklch(58.5% 0.233 274.2deg);
+  --chart-3: oklch(65% 0.02 270deg);
+  --chart-4: oklch(75% 0.02 270deg);
+  --chart-5: oklch(85% 0.02 270deg);
+  --radius: 0.75rem;
+  --sidebar: oklch(18% 0.03 270deg);
+  --sidebar-foreground: oklch(98.5% 0 0deg);
+  --sidebar-primary: oklch(58.8% 0.234 255.5deg);
+  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-accent: oklch(22% 0.03 270deg);
+  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
+  --sidebar-border: oklch(100% 0 0deg / 10%);
+  --sidebar-ring: oklch(58.8% 0.234 255.5deg);
+
+  /* Layout — единая точка управления шириной и отступами */
+  --layout-container-width: 76%;
+  --layout-container-max-width: 1280px;
+  --layout-container-width-narrow: 60%;
+  --layout-container-max-width-narrow: 768px;
+  --layout-container-width-wide: 90%;
+  --layout-container-max-width-wide: 1536px;
+  --layout-padding-x: 1.5rem;
+  --layout-header-height: 4rem;
+  --layout-border-subtle: oklch(100% 0 0deg / 10%);
+}

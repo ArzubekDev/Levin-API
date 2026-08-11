@@ -1,9 +1,10 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { HeaderAuthSlot } from '@/features/auth';
-import { Logo } from '@/shared/components/logo';
-import { Container } from '@/shared/ui/Container';
-import { HEADER_NAV_ITEMS } from './consts';
+import { HeaderAuthSlot } from "@/features/auth";
+import { Logo } from "@/shared/components/logo";
+import { Container } from "@/shared/ui/Container";
+
+import { HEADER_NAV_ITEMS } from "./consts";
 
 const Header = () => {
   return (

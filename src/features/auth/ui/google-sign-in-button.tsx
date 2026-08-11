@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { FcGoogle } from 'react-icons/fc';
+import type { CredentialResponse } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
 
-import { oauthButtonClassName } from '@/features/auth/ui/oauth-button-styles';
-import { Button } from '@/shared/components/ui/button';
-import { cn } from '@/shared/lib/utils';
+import { oauthButtonClassName } from "@/features/auth/ui/oauth-button-styles";
+import { Button } from "@/shared/components/ui/button";
+import { cn } from "@/shared/lib/utils";
 
 interface GoogleSignInButtonProps {
   onSuccess: (response: CredentialResponse) => void;
@@ -22,14 +23,14 @@ export function GoogleSignInButton({ onSuccess, onError, className }: GoogleSign
         size="lg"
         tabIndex={-1}
         aria-hidden
-        className={cn(oauthButtonClassName, 'pointer-events-none', className)}
+        className={cn(oauthButtonClassName, "pointer-events-none", className)}
       >
         <FcGoogle className="size-4" />
         Continue with Google
       </Button>
 
       <div
-        className="absolute inset-0 z-10 overflow-hidden opacity-hit [&_iframe]:size-full [&>div]:size-full [&>div>div]:mx-auto [&>div>div]:size-full"
+        className="opacity-hit absolute inset-0 z-10 overflow-hidden [&_iframe]:size-full [&>div]:size-full [&>div>div]:mx-auto [&>div>div]:size-full"
         aria-label="Continue with Google"
       >
         <GoogleLogin

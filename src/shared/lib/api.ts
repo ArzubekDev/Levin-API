@@ -1,10 +1,6 @@
 import { clearAccessToken, getAccessToken } from "./access-token";
 
-export {
-  clearAccessToken,
-  getAccessToken,
-  setAccessToken,
-} from "./access-token";
+export { clearAccessToken, getAccessToken, setAccessToken } from "./access-token";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "/backend";
 
@@ -19,10 +15,7 @@ class ApiClient {
     return getAccessToken();
   }
 
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : "/" + endpoint;
     const url = `${this.baseUrl}${cleanEndpoint}`;
 

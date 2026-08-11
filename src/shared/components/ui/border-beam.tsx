@@ -43,7 +43,7 @@ export function BorderBeam({
       <motion.div
         className={cn(
           "absolute aspect-square bg-linear-to-l from-(--color-from) via-(--color-to) to-transparent",
-          className
+          className,
         )}
         style={
           {

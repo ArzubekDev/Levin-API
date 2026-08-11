@@ -1,8 +1,7 @@
 import { Dashboard } from "@/widgets/dashboard";
 
-
 function DashboardPage() {
-  return <Dashboard />
+  return <Dashboard />;
 }
 
 export default DashboardPage;

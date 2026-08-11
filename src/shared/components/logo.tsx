@@ -21,12 +21,7 @@ const sizeConfig = {
   },
 } as const;
 
-export function Logo({
-  href = "/",
-  size = "md",
-  showText = true,
-  className,
-}: LogoProps) {
+export function Logo({ href = "/", size = "md", showText = true, className }: LogoProps) {
   const config = sizeConfig[size];
 
   const content = (

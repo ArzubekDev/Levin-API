@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { buttonVariants } from '@/shared/components/ui/button';
-import { cn } from '@/shared/lib/utils';
+import { buttonVariants } from "@/shared/components/ui/button";
+import { cn } from "@/shared/lib/utils";
 
 export function GuestNavActions() {
   return (
@@ -9,8 +9,8 @@ export function GuestNavActions() {
       <Link
         href="/login"
         className={cn(
-          buttonVariants({ variant: 'ghost' }),
-          'cursor-pointer text-slate-300 hover:bg-slate-800 hover:text-white',
+          buttonVariants({ variant: "ghost" }),
+          "cursor-pointer text-slate-300 hover:bg-slate-800 hover:text-white",
         )}
       >
         Sign in
@@ -18,7 +18,7 @@ export function GuestNavActions() {
 
       <Link
         href="/login"
-        className={cn(buttonVariants(), 'cursor-pointer bg-blue-600 text-white hover:bg-blue-700')}
+        className={cn(buttonVariants(), "cursor-pointer bg-blue-600 text-white hover:bg-blue-700")}
       >
         Get started
       </Link>

@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { Suspense } from 'react';
-import { MainContent } from './MainContent';
+import { Suspense } from "react";
+
+import { MainContent } from "./MainContent";
 
 function LoginFallback() {
   return (

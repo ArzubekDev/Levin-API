@@ -1,18 +1,19 @@
 "use client";
 
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
-import { authKeys } from "@/features/auth";
-import { api } from "@/shared/lib/api";
-import { Label } from "@/shared/components/ui/label";
-import { Slider } from "@/shared/components/ui/slider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { authKeys } from "@/features/auth";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
+import { Slider } from "@/shared/components/ui/slider";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { api } from "@/shared/lib/api";
 import { Container } from "@/shared/ui/Container";
 
 const DEFAULT_SCHEMA = {
@@ -24,9 +25,9 @@ const DEFAULT_SCHEMA = {
       email: { type: "string", faker: "internet.email" },
       age: { type: "integer", minimum: 18, maximum: 65 },
       role: { type: "string", enum: ["admin", "user", "guest"] },
-      isActive: { type: "boolean" }
-    }
-  }
+      isActive: { type: "boolean" },
+    },
+  },
 };
 
 interface CreateProjectInput {
@@ -75,14 +76,17 @@ export function NewProject() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white py-24">
+    <div className="min-h-screen bg-slate-950 py-24 text-white">
       <Container size="narrow">
-        <Link href="/dashboard" className="inline-flex items-center text-slate-400 hover:text-white mb-6">
+        <Link
+          href="/dashboard"
+          className="mb-6 inline-flex items-center text-slate-400 hover:text-white"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Link>
 
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="border-slate-800 bg-slate-900">
           <CardHeader>
             <CardTitle>New Mock API</CardTitle>
           </CardHeader>
@@ -94,7 +98,7 @@ export function NewProject() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="My store"
-                  className="bg-slate-800 border-slate-700"
+                  className="border-slate-700 bg-slate-800"
                   required
                 />
               </div>
@@ -104,7 +108,7 @@ export function NewProject() {
                 <Textarea
                   value={schemaText}
                   onChange={(e) => setSchemaText(e.target.value)}
-                  className="bg-slate-800 border-slate-700 font-mono text-sm min-h-75"
+                  className="min-h-75 border-slate-700 bg-slate-800 font-mono text-sm"
                   required
                 />
                 <p className="text-xs text-slate-500">

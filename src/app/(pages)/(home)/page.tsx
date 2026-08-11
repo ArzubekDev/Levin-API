@@ -1,7 +1,7 @@
-import { LightningBackground } from '@/shared/components/lightning-background';
-import { CodePreview } from '@/widgets/home/CodePreview';
-import FeatureCards from '@/widgets/home/FeatureCards';
-import { Home } from '@/widgets/home/Home';
+import { LightningBackground } from "@/shared/components/lightning-background";
+import { CodePreview } from "@/widgets/home/CodePreview";
+import FeatureCards from "@/widgets/home/FeatureCards";
+import { Home } from "@/widgets/home/Home";
 
 export default function HomePage() {
   return (
