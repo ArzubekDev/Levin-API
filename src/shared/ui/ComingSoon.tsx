@@ -82,23 +82,23 @@ export function ComingSoon({
             Levin API
           </p>
 
-         <div className="relative flex flex-col items-center justify-center">
-          <HorizonBeam />
-         <h1 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">
-            {title}
-          </h1>
+          <div className="relative flex flex-col items-center justify-center">
+            <HorizonBeam />
+            <h1 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">
+              {title}
+            </h1>
 
-          <p className="mx-auto max-w-sm text-sm leading-relaxed text-slate-500 md:text-base">
-            {description}
-          </p>
-         </div>
+            <p className="mx-auto max-w-sm text-sm leading-relaxed text-slate-500 md:text-base">
+              {description}
+            </p>
+          </div>
 
           <div className="mx-auto mt-8 w-full max-w-xs space-y-2.5">
             <div className="flex items-end justify-between px-0.5">
               <span className="text-[11px] font-medium tracking-wide text-slate-500 uppercase">
                 Прогресс
               </span>
-              <span className="font-mono text-sm font-semibold tabular-nums text-blue-300">
+              <span className="font-mono text-sm font-semibold text-blue-300 tabular-nums">
                 {clampedProgress}%
               </span>
             </div>

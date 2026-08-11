@@ -50,11 +50,7 @@ export function AnimatedBoltIcon({
   return (
     <span
       ref={wrapRef}
-      className={cn(
-        "inline-flex shrink-0 leading-none",
-        isLoader && "bolt-draw-loop",
-        className,
-      )}
+      className={cn("inline-flex shrink-0 leading-none", isLoader && "bolt-draw-loop", className)}
     >
       <svg
         width={size}
