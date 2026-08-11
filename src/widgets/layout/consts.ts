@@ -9,10 +9,10 @@ export const HEADER_NAV_ITEMS = [
   },
   {
     label: "Create API",
-    href: "/create",
+    href: "/create-api",
   },
   {
     label: "Generate API",
-    href: "/generate",
+    href: "/generate-api",
   },
 ] as const;

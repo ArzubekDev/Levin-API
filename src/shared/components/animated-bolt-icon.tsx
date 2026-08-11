@@ -7,15 +7,30 @@ import { cn } from "@/shared/lib/utils";
 interface AnimatedBoltIconProps {
   size?: number;
   className?: string;
+  /** idle — редкая brand-анимация; loader — быстрый непрерывный цикл */
+  variant?: "idle" | "loader";
 }
 
-export function AnimatedBoltIcon({ size = 30, className }: AnimatedBoltIconProps) {
+export function AnimatedBoltIcon({
+  size = 30,
+  className,
+  variant = "idle",
+}: AnimatedBoltIconProps) {
   const gradientId = useId();
   const wrapRef = useRef<HTMLSpanElement>(null);
+  const isLoader = variant === "loader";
 
   useEffect(() => {
+    if (isLoader) return;
+
     const wrap = wrapRef.current;
     if (!wrap) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMotion.matches) {
+      wrap.classList.add("bolt-draw-play");
+      return;
+    }
 
     const playAnim = () => {
       wrap.classList.remove("bolt-draw-play");
@@ -30,17 +45,29 @@ export function AnimatedBoltIcon({ size = 30, className }: AnimatedBoltIconProps
       window.clearTimeout(initialTimeout);
       window.clearInterval(interval);
     };
-  }, []);
+  }, [isLoader]);
 
   return (
-    <span ref={wrapRef} className={cn("inline-flex shrink-0 leading-none", className)}>
+    <span
+      ref={wrapRef}
+      className={cn(
+        "inline-flex shrink-0 leading-none",
+        isLoader && "bolt-draw-loop",
+        className,
+      )}
+    >
       <svg
         width={size}
         height={size}
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="block drop-shadow-[0_0_6px_rgba(79,125,255,0.55)]"
+        className={cn(
+          "block",
+          isLoader
+            ? "drop-shadow-[0_0_14px_rgba(110,168,255,0.65)]"
+            : "drop-shadow-[0_0_6px_rgba(79,125,255,0.55)]",
+        )}
         aria-hidden="true"
       >
         <defs>

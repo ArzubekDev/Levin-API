@@ -37,7 +37,7 @@ interface CreateProjectInput {
   errorRate?: number;
 }
 
-export function NewProject() {
+export function GenerateApi() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [name, setName] = useState("");
