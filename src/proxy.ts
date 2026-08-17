@@ -7,6 +7,7 @@ import {
   isProtectedRoute,
   LOGIN_ROUTE,
 } from "@/features/auth/config/routes";
+import { getSafeNextPath } from "@/features/auth/lib/safe-next-path";
 import { SESSION_COOKIE } from "@/shared/lib/session-cookie";
 
 export function proxy(request: NextRequest) {
@@ -14,7 +15,11 @@ export function proxy(request: NextRequest) {
   const hasSession = request.cookies.has(SESSION_COOKIE);
 
   if (hasSession && isGuestOnlyRoute(pathname)) {
-    return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_ROUTE, request.url));
+    const nextPath = getSafeNextPath(
+      request.nextUrl.searchParams.get("next"),
+      DEFAULT_AUTHENTICATED_ROUTE,
+    );
+    return NextResponse.redirect(new URL(nextPath, request.url));
   }
 
   if (!hasSession && isProtectedRoute(pathname)) {
@@ -27,5 +32,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|backend|.*\\..*).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|backend|api|.*\\..*).*)"],
 };

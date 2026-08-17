@@ -2,14 +2,13 @@
 
 import { motion, useReducedMotion } from "motion/react";
 
-import { AnimatedBoltIcon } from "@/shared/components/animated-bolt-icon";
 import { cn } from "@/shared/lib/utils";
+import { AnimatedBoltIcon } from "@/shared/ui/AnimatedBoltIcon";
 import HorizonBeam from "@/shared/ui/HorizonBeam";
 
 interface ComingSoonProps {
   title?: string;
   description?: string;
-  /** Прогресс разработки, 0–100. По умолчанию 11%. */
   progress?: number;
   className?: string;
 }
@@ -78,19 +77,20 @@ export function ComingSoon({
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
           className="w-full space-y-3"
         >
-          <p className="text-[11px] font-semibold tracking-[0.22em] text-blue-300/80 uppercase">
-            Levin API
-          </p>
-
-          <div className="relative flex flex-col items-center justify-center">
+          <div className="relative flex flex-col items-center justify-center gap-3">
             <HorizonBeam />
-            <h1 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">
-              {title}
-            </h1>
 
-            <p className="mx-auto max-w-sm text-sm leading-relaxed text-slate-500 md:text-base">
-              {description}
+            <p className="relative z-10 inline-flex items-center gap-2 rounded-md border border-amber-400/25 bg-amber-400/10 px-2.5 py-1 text-[11px] font-medium tracking-[0.14em] text-amber-100/90 uppercase shadow-[0_0_24px_-8px_rgb(251_191_36/45%)] backdrop-blur-sm">
+              <span
+                aria-hidden
+                className="size-1.5 shrink-0 rounded-full bg-amber-300 shadow-[0_0_8px_rgb(252_211_77/70%)]"
+              />
+              {title}
             </p>
+
+            <h1 className="relative z-10 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+              {description}
+            </h1>
           </div>
 
           <div className="mx-auto mt-8 w-full max-w-xs space-y-2.5">

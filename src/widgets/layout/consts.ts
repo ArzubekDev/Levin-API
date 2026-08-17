@@ -4,15 +4,15 @@ export const HEADER_NAV_ITEMS = [
     href: "/dashboard",
   },
   {
-    label: "Документация",
+    label: "Docs",
     href: "/docs",
   },
   {
-    label: "Create API",
-    href: "/create-api",
+    label: "Real API",
+    href: "/real-api",
   },
   {
-    label: "Generate API",
-    href: "/generate-api",
+    label: "Mock API",
+    href: "/mock-api",
   },
 ] as const;

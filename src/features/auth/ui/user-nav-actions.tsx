@@ -5,11 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import type { User } from "@/entities/user";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui/popover";
 import { Separator } from "@/shared/components/ui/separator";
-import type { User } from "@/shared/lib/api";
 import { cn } from "@/shared/lib/utils";
 
 import { USER_NAV_ITEMS } from "../model/consts";
@@ -72,7 +72,7 @@ function MenuItem({
   variant?: "default" | "danger";
 }) {
   const className = cn(
-    "flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
+    "flex w-full cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
     variant === "default" && "text-muted-foreground hover:bg-muted hover:text-foreground",
     variant === "danger" && "text-destructive hover:bg-destructive/10 hover:text-destructive",
   );
@@ -105,7 +105,7 @@ export function UserNavActions({ user, onSignOut }: UserNavActionsProps) {
         render={
           <Button
             variant="ghost"
-            className="border-border bg-card/50 text-foreground hover:bg-muted hover:text-foreground data-popup-open:bg-muted h-9 gap-2 rounded-full border px-2 shadow-sm"
+            className="border-border bg-card/50 text-foreground hover:bg-muted hover:text-foreground data-popup-open:bg-muted h-9 cursor-pointer gap-2 rounded-full border px-2 shadow-sm"
           >
             <UserAvatar user={user} />
             <span className="hidden max-w-28 truncate text-sm font-medium sm:inline">

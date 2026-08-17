@@ -6,8 +6,8 @@ const DashboardEmpty = () => {
       <HorizonBeam />
 
       <div className="relative z-10 text-center">
-        <p className="text-lg text-slate-400">You don&apos;t have any projects yet</p>
-        <p className="mt-2 text-slate-400">Create your first Mock API</p>
+        <p className="text-lg text-slate-400">У вас пока нет проектов</p>
+        <p className="mt-2 text-slate-400">Создайте свой первый Mock API</p>
       </div>
     </div>
   );

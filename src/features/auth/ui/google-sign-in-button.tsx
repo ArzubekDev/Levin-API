@@ -26,12 +26,12 @@ export function GoogleSignInButton({ onSuccess, onError, className }: GoogleSign
         className={cn(oauthButtonClassName, "pointer-events-none", className)}
       >
         <FcGoogle className="size-4" />
-        Continue with Google
+        Войти через Google
       </Button>
 
       <div
         className="opacity-hit absolute inset-0 z-10 overflow-hidden [&_iframe]:size-full [&>div]:size-full [&>div>div]:mx-auto [&>div>div]:size-full"
-        aria-label="Continue with Google"
+        aria-label="Войти через Google"
       >
         <GoogleLogin
           onSuccess={onSuccess}

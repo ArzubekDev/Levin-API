@@ -1,1 +1,0 @@
-export { GenerateApi } from "./GenerateApi";

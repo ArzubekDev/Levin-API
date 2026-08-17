@@ -1,6 +1,7 @@
 "use client";
 
 import { FaGithub } from "react-icons/fa6";
+import { toast } from "sonner";
 
 import { buildGitHubAuthorizeUrl } from "@/features/auth/lib/github-oauth";
 import { oauthButtonClassName } from "@/features/auth/ui/oauth-button-styles";
@@ -17,7 +18,7 @@ export function GitHubSignInButton({ className }: GitHubSignInButtonProps) {
       window.location.assign(buildGitHubAuthorizeUrl());
     } catch (error) {
       console.error("GitHub OAuth is not configured:", error);
-      alert("GitHub sign-in is not configured");
+      toast.error("Вход через GitHub не настроен");
     }
   };
 
@@ -30,7 +31,7 @@ export function GitHubSignInButton({ className }: GitHubSignInButtonProps) {
       onClick={handleSignIn}
     >
       <FaGithub className="size-4" />
-      Continue with GitHub
+      Войти через GitHub
     </Button>
   );
 }

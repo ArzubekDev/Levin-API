@@ -8,15 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
         pathname: "/**",
       },
-    ],
-  },
-  async rewrites() {
-    return [
       {
-        source: "/backend/:path*",
-        destination: "http://localhost:4000/:path*",
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
       },
-    ];
+    ],
   },
 };
 

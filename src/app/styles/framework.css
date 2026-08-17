@@ -51,6 +51,5 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* Почти невидимый оверлей Google Login — кликабелен, но не виден */
   --opacity-hit: 0.011;
 }

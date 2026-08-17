@@ -1,5 +1,4 @@
 :root {
-  /* Тёмная тема по умолчанию — dev tool style */
   --background: oklch(12.9% 0.042 264.695deg);
   --foreground: oklch(98.5% 0 0deg);
   --card: oklch(18% 0.03 270deg);
@@ -33,7 +32,6 @@
   --sidebar-border: oklch(100% 0 0deg / 10%);
   --sidebar-ring: oklch(58.8% 0.234 255.5deg);
 
-  /* Layout — единая точка управления шириной и отступами */
   --layout-container-width: 76%;
   --layout-container-max-width: 1280px;
   --layout-container-width-narrow: 60%;

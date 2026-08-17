@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   completeSignIn,
@@ -13,26 +14,26 @@ import {
   GoogleSignInButton,
   signInWithGoogle,
 } from "@/features/auth";
-import { Logo } from "@/shared/components/logo";
+import { getSafeNextPath } from "@/features/auth/lib/safe-next-path";
+import { Logo } from "@/shared/ui/Logo";
 
 export function MainContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
-  const handleAuthSuccess = async (token: string) => {
-    await completeSignIn(token, queryClient);
-    const nextPath = searchParams.get("next");
-    router.replace(nextPath?.startsWith("/") ? nextPath : DEFAULT_AUTHENTICATED_ROUTE);
+  const handleAuthSuccess = async () => {
+    await completeSignIn(queryClient);
+    router.replace(getSafeNextPath(searchParams.get("next"), DEFAULT_AUTHENTICATED_ROUTE));
   };
 
   const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
     try {
-      const data = await signInWithGoogle(credentialResponse.credential!);
-      await handleAuthSuccess(data.token);
+      await signInWithGoogle(credentialResponse.credential!);
+      await handleAuthSuccess();
     } catch (error) {
       console.error("Google login failed:", error);
-      alert("Google sign-in failed");
+      toast.error("Не удалось войти через Google");
     }
   };
 
@@ -53,13 +54,14 @@ export function MainContent() {
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/50 px-3 py-1 text-xs text-slate-400">
                   <Sparkles className="size-3 text-blue-400" />
-                  Secure OAuth 2.0
+                  Безопасный OAuth 2.0
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-white">
-                  Welcome to <span className="gradient-text">Levin API</span>
+                  Добро пожаловать в <span className="gradient-text">Levin API</span>
                 </h1>
                 <p className="text-sm leading-relaxed text-slate-400">
-                  Sign in to create mock endpoints, manage projects, and test your frontend faster.
+                  Войдите, чтобы создавать mock-эндпоинты, управлять проектами и быстрее тестировать
+                  фронтенд.
                 </p>
               </div>
             </div>
@@ -67,20 +69,20 @@ export function MainContent() {
             <div className="space-y-3">
               <GoogleSignInButton
                 onSuccess={handleGoogleSuccess}
-                onError={() => alert("Google OAuth error")}
+                onError={() => toast.error("Ошибка Google OAuth")}
               />
               <GitHubSignInButton />
             </div>
 
             <p className="text-center text-xs leading-relaxed text-slate-500">
-              By continuing, you agree to our terms of service.
+              Продолжая, вы соглашаетесь с условиями использования.
               <br />
-              Need help?{" "}
+              Нужна помощь?{" "}
               <Link
                 href="/docs"
                 className="text-slate-400 underline-offset-4 hover:text-white hover:underline"
               >
-                Read the docs
+                Читать документацию
               </Link>
             </p>
           </div>

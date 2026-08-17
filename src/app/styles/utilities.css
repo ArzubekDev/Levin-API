@@ -65,24 +65,29 @@
   }
 }
 
+html,
 .scrollbar-thin {
   scrollbar-width: thin;
   scrollbar-color: rgb(51 65 85) transparent;
 }
 
+html::-webkit-scrollbar,
 .scrollbar-thin::-webkit-scrollbar {
   width: 8px;
 }
 
+html::-webkit-scrollbar-track,
 .scrollbar-thin::-webkit-scrollbar-track {
   background: transparent;
 }
 
+html::-webkit-scrollbar-thumb,
 .scrollbar-thin::-webkit-scrollbar-thumb {
   border-radius: 9999px;
-  background: rgb(51 65 85); /* slate-700 */
+  background: rgb(51 65 85);
 }
 
+html::-webkit-scrollbar-thumb:hover,
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgb(71 85 105); /* slate-600 */
+  background: rgb(71 85 105);
 }

@@ -11,7 +11,10 @@ export function DocsSidebar() {
   const sidebarGroups = useMemo(() => getSidebarGroups(DOC_SECTIONS), []);
   const sectionIds = useMemo(() => DOC_SECTIONS.map((s) => s.id), []);
 
-  const { activeId, handleSelect } = useActiveSection(sectionIds, DOC_SECTIONS[0]?.id);
+  const { activeId, handleSelect } = useActiveSection(sectionIds, DOC_SECTIONS[0]?.id, {
+    rootSelector: "#docs-content-scroll",
+    topOffset: 96,
+  });
 
   return (
     <aside className="hidden h-[calc(100vh-166px)] w-72 shrink-0 scrollbar-thin overflow-y-auto rounded-l-xl border-y border-l border-slate-800 bg-slate-900 p-4 md:block lg:w-84">
@@ -29,7 +32,11 @@ export function DocsSidebar() {
                   <li key={item.id}>
                     <a
                       href={item.href}
-                      onClick={() => handleSelect(item.id)}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        handleSelect(item.id);
+                        window.history.replaceState(null, "", item.href);
+                      }}
                       className={cn(
                         "block rounded-md px-3 py-1.5 text-sm transition-all duration-200",
                         isActive

@@ -24,8 +24,17 @@ export function isAuthFlowRoute(pathname: string) {
   return AUTH_FLOW_ROUTES.some((route) => matchesRoute(pathname, route));
 }
 
+export function isApiRoute(pathname: string) {
+  return pathname === "/api" || pathname.startsWith("/api/");
+}
+
 export function isProtectedRoute(pathname: string) {
-  return !isPublicRoute(pathname) && !isGuestOnlyRoute(pathname) && !isAuthFlowRoute(pathname);
+  return (
+    !isPublicRoute(pathname) &&
+    !isGuestOnlyRoute(pathname) &&
+    !isAuthFlowRoute(pathname) &&
+    !isApiRoute(pathname)
+  );
 }
 
 export const LOGIN_ROUTE = "/login";

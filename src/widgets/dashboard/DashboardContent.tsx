@@ -1,7 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ExternalLink, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
+import type { Project } from "@/entities/project";
+import { projectKeys } from "@/entities/project/model/project-keys";
 import { authKeys } from "@/features/auth";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -11,20 +14,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { api, type Project } from "@/shared/lib/api";
+import { fetchClient } from "@/shared/lib/fetch-client";
 
 const DashboardContent = ({ projects }: { projects: Project[] }) => {
   const queryClient = useQueryClient();
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/projects/${id}`);
+      await fetchClient.delete(`/projects/${id}`);
       await queryClient.invalidateQueries({ queryKey: authKeys.all });
+      await queryClient.invalidateQueries({ queryKey: projectKeys.all });
+      toast.success("Проект удалён");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        alert(error.message);
+        toast.error(error.message);
       } else {
-        alert("Failed to delete project");
+        toast.error("Не удалось удалить проект");
       }
     }
   };
@@ -41,15 +46,19 @@ const DashboardContent = ({ projects }: { projects: Project[] }) => {
                 </CardDescription>
               </div>
               <div className="flex gap-2">
-                <Link href={`/project/${project.id}`}>
-                  <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
+                <Link href={`/mock-api/${project.id}`}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="cursor-pointer text-slate-400 hover:text-white"
+                  >
                     <ExternalLink className="h-4 w-4" />
                   </Button>
                 </Link>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-red-400 hover:bg-red-950 hover:text-red-300"
+                  className="cursor-pointer text-red-400 hover:bg-red-950 hover:text-red-300"
                   onClick={() => handleDelete(project.id)}
                 >
                   <Trash2 className="h-4 w-4" />
@@ -59,9 +68,9 @@ const DashboardContent = ({ projects }: { projects: Project[] }) => {
           </CardHeader>
           <CardContent>
             <div className="flex gap-2 text-xs text-slate-500">
-              <span>Delay: {project.delay}ms</span>
+              <span>Задержка: {project.delay} мс</span>
               <span>•</span>
-              <span>Errors: {project.errorRate}%</span>
+              <span>Ошибки: {project.errorRate}%</span>
             </div>
           </CardContent>
         </Card>

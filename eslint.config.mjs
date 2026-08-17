@@ -1,14 +1,13 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
-import eslintConfigPrettier from "eslint-config-prettier/flat";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import importPlugin from "eslint-plugin-import";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default defineConfig([
   ...nextVitals,
   ...nextTs,
-  eslintConfigPrettier,
   {
     plugins: {
       import: importPlugin,
@@ -30,5 +29,6 @@ export default defineConfig([
       "no-console": ["warn", { allow: ["error"] }],
     },
   },
+  eslintPluginPrettierRecommended,
   globalIgnores([".next/**", "node_modules/**", "coverage/**", "*.config.*"]),
 ]);

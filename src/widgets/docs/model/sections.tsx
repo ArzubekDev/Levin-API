@@ -192,7 +192,6 @@ export const DOC_SECTIONS: DocsSection[] = [
         </P>
         <Code>{`GET https://ваш-api/api/a7k9m2px/users?limit=5
 
-// или локально при разработке:
 GET http://localhost:4000/api/a7k9m2px/users?limit=5`}</Code>
         <P>Успешный ответ выглядит примерно так:</P>
         <Code>{`{
@@ -237,11 +236,11 @@ GET http://localhost:4000/api/a7k9m2px/users?limit=5`}</Code>
           rows={[
             [
               "Google",
-              "Фронтенд получает Google credential (JWT), отправляет его на POST /auth/google, бэкенд проверяет токен и возвращает наш JWT + профиль пользователя.",
+              "Фронтенд получает Google credential и отправляет его на BFF POST /api/auth/google. BFF ходит в Nest, получает JWT и кладёт его в HttpOnly cookie — в браузерный JS токен не попадает.",
             ],
             [
               "GitHub",
-              "Вас редиректит на GitHub OAuth. После согласия GitHub возвращает code на /login/github/callback. Фронтенд отправляет code на POST /auth/github и получает наш JWT.",
+              "Вас редиректит на GitHub OAuth. После согласия GitHub возвращает code на /login/github/callback. Фронтенд отправляет code на BFF POST /api/auth/github; JWT снова остаётся только в HttpOnly cookie.",
             ],
           ]}
         />
@@ -249,15 +248,15 @@ GET http://localhost:4000/api/a7k9m2px/users?limit=5`}</Code>
         <Ul
           items={[
             <>
-              Access token (JWT) кладётся в <code className="text-slate-300">localStorage</code> и
-              дальше уходит в заголовок{" "}
-              <code className="text-slate-300">Authorization: Bearer …</code>
+              JWT хранится в HttpOnly cookie <code className="text-slate-300">levin_session</code> на
+              домене фронта. JavaScript его не читает.
             </>,
             <>
-              Cookie <code className="text-slate-300">has_session=1</code> — это только флаг для
-              защиты маршрутов на фронте. Сам JWT в cookie не лежит.
+              Браузер ходит только на same-origin <code className="text-slate-300">/backend/*</code>.
+              BFF подставляет{" "}
+              <code className="text-slate-300">Authorization: Bearer …</code> к Nest API.
             </>,
-            "Срок жизни JWT — 7 дней",
+            "Срок жизни сессии — 7 дней",
           ]}
         />
         <Sub>Какие страницы доступны без входа</Sub>
@@ -631,8 +630,7 @@ GET /api/a7k9m2px/users?limit=500
           Вероятность ошибки в процентах (на UI — до 50%). Например, errorRate = 10 означает, что
           примерно каждый десятый запрос вернёт ошибку симуляции.
         </P>
-        <Code>{`// При срабатывании симуляции:
-HTTP 404
+        <Code>{`HTTP 404
 {
   "statusCode": 404,
   "message": "Simulated server error",
@@ -671,8 +669,6 @@ HTTP 404
   }
 
   const json = await res.json();
-  // json.data — массив пользователей
-  // json.meta — служебная информация
   return json.data;
 }`}</Code>
         <Sub>axios</Sub>
@@ -787,10 +783,11 @@ function UsersList() {
         </P>
         <Sub>Локальная разработка</Sub>
         <P>
-          Фронтенд по умолчанию ходит на <code className="text-slate-300">/backend/...</code>, а
-          Next.js проксирует это на <code className="text-slate-300">http://localhost:4000</code>.
-          Для прямых запросов из своего приложения удобнее сразу использовать{" "}
-          <code className="text-slate-300">http://localhost:4000</code>.
+          Браузер ходит на same-origin <code className="text-slate-300">/backend/...</code>. Next
+          BFF читает HttpOnly cookie и проксирует на Nest (
+          <code className="text-slate-300">API_INTERNAL_URL</code>, по умолчанию{" "}
+          <code className="text-slate-300">http://localhost:4000</code>). Публичные mock URL для
+          клиентов — напрямую на Nest, не через BFF.
         </P>
         <Sub>Чеклист перед тем, как писать в поддержку / чат</Sub>
         <Ol
@@ -799,7 +796,7 @@ function UsersList() {
             "URL содержит правильный endpointKey и resource",
             "limit не обязателен, но если указан — число",
             "Если ловите Simulated server error — временно поставьте errorRate = 0",
-            "Для создания проектов нужен Bearer JWT после логина",
+            "Для UI нужна активная HttpOnly-сессия после логина",
           ]}
         />
       </>

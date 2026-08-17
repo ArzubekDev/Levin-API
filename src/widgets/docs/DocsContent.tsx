@@ -4,7 +4,10 @@ import { DOC_SECTIONS } from "./model/sections";
 
 export function DocsContent() {
   return (
-    <div className="h-[calc(100vh-166px)] w-full flex-1 scrollbar-thin overflow-y-auto rounded-r-xl border border-slate-800 bg-slate-900 p-6 md:p-8">
+    <div
+      id="docs-content-scroll"
+      className="h-[calc(100vh-166px)] w-full flex-1 scrollbar-thin overflow-y-auto rounded-r-xl border border-slate-800 bg-slate-900 p-6 md:p-8"
+    >
       <header className="mb-10">
         <h1 className="mb-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
           Документация

@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -11,12 +10,43 @@ import {
   LOGIN_ROUTE,
 } from "@/features/auth/config/routes";
 import { useSession } from "@/features/auth/lib/use-session";
-import { syncSessionCookie } from "@/shared/lib/access-token";
+import { Button } from "@/shared/components/ui/button";
+import { AnimatedBoltIcon } from "@/shared/ui/AnimatedBoltIcon";
 
 function RouteGuardFallback() {
   return (
-    <div className="flex min-h-[50vh] items-center justify-center text-slate-400">
-      <Loader2 className="h-5 w-5 animate-spin" />
+    <div className="fixed inset-0 z-110 flex items-center justify-center">
+      <AnimatedBoltIcon size={40} variant="loader" />
+    </div>
+  );
+}
+
+function RouteGuardUnavailable({
+  isRetrying,
+  onRetry,
+}: {
+  isRetrying: boolean;
+  onRetry: () => void;
+}) {
+  return (
+    <div
+      role="alert"
+      className="fixed inset-0 z-110 flex flex-col items-center justify-center gap-4 bg-slate-950 px-6 text-center"
+    >
+      <AnimatedBoltIcon size={40} variant="loader" />
+      <div className="space-y-2">
+        <p className="text-lg font-semibold text-white">Сервис временно недоступен</p>
+        <p className="max-w-sm text-sm text-slate-400">
+          Не удалось проверить сессию. Попробуйте ещё раз через несколько секунд.
+        </p>
+      </div>
+      <Button
+        className="cursor-pointer bg-blue-600 text-white hover:bg-blue-700"
+        disabled={isRetrying}
+        onClick={onRetry}
+      >
+        {isRetrying ? "Повтор…" : "Повторить"}
+      </Button>
     </div>
   );
 }
@@ -24,14 +54,10 @@ function RouteGuardFallback() {
 export function RouteGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { status } = useSession();
+  const { status, isFetching, refetch } = useSession();
 
   useEffect(() => {
-    syncSessionCookie();
-  }, []);
-
-  useEffect(() => {
-    if (status === "loading") return;
+    if (status === "loading" || status === "unavailable") return;
 
     if (status === "authenticated" && isGuestOnlyRoute(pathname)) {
       router.replace(DEFAULT_AUTHENTICATED_ROUTE);
@@ -45,6 +71,10 @@ export function RouteGuard({ children }: { children: React.ReactNode }) {
 
   if (status === "loading" && (isProtectedRoute(pathname) || isGuestOnlyRoute(pathname))) {
     return <RouteGuardFallback />;
+  }
+
+  if (status === "unavailable" && isProtectedRoute(pathname)) {
+    return <RouteGuardUnavailable isRetrying={isFetching} onRetry={() => void refetch()} />;
   }
 
   if (status === "authenticated" && isGuestOnlyRoute(pathname)) {

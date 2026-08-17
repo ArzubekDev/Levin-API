@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 
+import { Toaster } from "@/shared/components/ui/sonner";
+
 import { GoogleProvider } from "./providers/google-provider";
 import { QueryProvider } from "./providers/query-provider";
 
@@ -17,8 +19,8 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Levin API — Mock API Generator",
-  description: "Fake API generator for practice and development",
+  title: "Levin API — генератор API",
+  description: "Генератор API для практики и разработки",
 };
 
 export default function RootLayout({
@@ -27,10 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable} h-full antialiased`}>
+    <html lang="ru" className={`${inter.variable} ${jetbrains.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <QueryProvider>
           <GoogleProvider>{children}</GoogleProvider>
+          <Toaster />
         </QueryProvider>
       </body>
     </html>

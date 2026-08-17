@@ -7,7 +7,7 @@ import { UserNavActions } from "@/features/auth/ui/user-nav-actions";
 export function HeaderAuthSlot() {
   const { status, user, signOut } = useSession();
 
-  if (status === "loading") {
+  if (status === "loading" || status === "unavailable") {
     return <div className="h-8 w-28 animate-pulse rounded-lg bg-slate-800/80" aria-hidden />;
   }
 

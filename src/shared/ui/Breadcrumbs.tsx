@@ -27,6 +27,8 @@ const DEFAULT_LABELS: Record<string, string> = {
   project: "Проект",
   new: "Новый",
   login: "Вход",
+  "generate-api": "Генерация API",
+  "create-api": "Создание API",
 };
 
 function formatSegment(segment: string, labels: Record<string, string>) {
@@ -73,7 +75,7 @@ export function Breadcrumbs({ items, labels, home, separator, className }: Bread
   if (crumbs.length === 0) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className={cn("mb-6", className)}>
+    <nav aria-label="Хлебные крошки" className={cn("mb-6", className)}>
       <ol className="flex flex-wrap items-center gap-1.5 text-sm text-slate-400">
         {crumbs.map((item, index) => {
           const isLast = index === crumbs.length - 1;
