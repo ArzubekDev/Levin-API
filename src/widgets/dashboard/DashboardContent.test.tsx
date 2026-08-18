@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import type { Project } from "@/entities/project";
@@ -27,6 +28,10 @@ jest.mock("@/shared/lib/fetch-client", () => ({
   fetchClient: { delete: jest.fn() },
 }));
 
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
 const makeProject = (overrides: Partial<Project> = {}): Project => ({
   id: "1",
   name: "Users API",
@@ -41,14 +46,20 @@ const makeProject = (overrides: Partial<Project> = {}): Project => ({
 
 describe("DashboardContent", () => {
   const mockInvalidateQueries = jest.fn();
+  const mockPush = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
     (useQueryClient as jest.Mock).mockReturnValue({
       invalidateQueries: mockInvalidateQueries,
     });
+    (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
     (fetchClient.delete as jest.Mock).mockResolvedValue(undefined);
   });
+
+  const openProjectMenu = (name = "Users API") => {
+    fireEvent.contextMenu(screen.getByText(name));
+  };
 
   it("renders project cards with name, endpoint, delay and error rate", () => {
     render(
@@ -122,5 +133,47 @@ describe("DashboardContent", () => {
       expect(toast.error).toHaveBeenCalledWith("Не удалось удалить проект");
     });
     expect(mockInvalidateQueries).not.toHaveBeenCalled();
+  });
+
+  it("opens a context menu with actions and decorative disabled items", () => {
+    render(<DashboardContent projects={[makeProject()]} />);
+    openProjectMenu();
+
+    expect(screen.getByRole("menuitem", { name: "Открыть" })).not.toHaveAttribute("aria-disabled");
+    expect(screen.getByRole("menuitem", { name: "Удалить" })).not.toHaveAttribute("aria-disabled");
+    expect(screen.getByRole("menuitem", { name: "Переименовать" })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+    expect(screen.getByRole("menuitem", { name: "Дублировать" })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+    expect(screen.getByRole("menuitem", { name: "Отправить" })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+    expect(screen.getByRole("menuitem", { name: "Свойства" })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+  });
+
+  it("opens the project from the context menu", () => {
+    render(<DashboardContent projects={[makeProject({ id: "abc" })]} />);
+    openProjectMenu();
+    fireEvent.click(screen.getByRole("menuitem", { name: "Открыть" }));
+
+    expect(mockPush).toHaveBeenCalledWith("/mock-api/abc");
+  });
+
+  it("deletes a project from the context menu", async () => {
+    render(<DashboardContent projects={[makeProject({ id: "p1" })]} />);
+    openProjectMenu();
+    fireEvent.click(screen.getByRole("menuitem", { name: "Удалить" }));
+
+    await waitFor(() => {
+      expect(fetchClient.delete).toHaveBeenCalledWith("/projects/p1");
+    });
   });
 });

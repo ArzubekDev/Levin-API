@@ -34,10 +34,6 @@
 
   --layout-container-width: 76%;
   --layout-container-max-width: 1280px;
-  --layout-container-width-narrow: 60%;
-  --layout-container-max-width-narrow: 768px;
-  --layout-container-width-wide: 90%;
-  --layout-container-max-width-wide: 1536px;
   --layout-padding-x: 1.5rem;
   --layout-header-height: 4rem;
   --layout-border-subtle: oklch(100% 0 0deg / 10%);

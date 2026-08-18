@@ -9,6 +9,7 @@ import { Container } from "@/shared/ui/Container";
 import { Logo } from "@/shared/ui/Logo";
 
 import { HEADER_NAV_ITEMS } from "./consts";
+import { HeaderMobileNav } from "./HeaderMobileNav";
 
 const SCROLL_BG_THRESHOLD = 60;
 
@@ -36,7 +37,7 @@ const Header = () => {
     >
       <Container className="flex h-(--layout-header-height) items-center justify-between">
         <Logo />
-        <nav className="flex items-center gap-10">
+        <nav className="hidden items-center gap-10 md:flex">
           {HEADER_NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
@@ -50,7 +51,10 @@ const Header = () => {
             </Link>
           ))}
         </nav>
-        <HeaderAuthSlot />
+        <div className="flex items-center gap-2">
+          <HeaderAuthSlot />
+          <HeaderMobileNav />
+        </div>
       </Container>
     </header>
   );

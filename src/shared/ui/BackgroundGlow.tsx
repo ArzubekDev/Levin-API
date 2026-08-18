@@ -43,7 +43,7 @@ const BackgroundGlow = () => {
   }, [rawX, rawY]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-1 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-1 hidden h-full w-full overflow-hidden md:block">
       <motion.div
         style={{ x: primaryX, y: primaryY }}
         animate={{
@@ -55,7 +55,7 @@ const BackgroundGlow = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-[-4%] left-[18%] h-[28rem] w-[28rem] rounded-full bg-blue-500/16 blur-3xl will-change-transform"
+        className="absolute top-[-4%] left-[18%] h-112 w-md rounded-full bg-blue-500/16 blur-3xl will-change-transform"
       />
 
       <motion.div
@@ -70,7 +70,7 @@ const BackgroundGlow = () => {
           ease: "easeInOut",
           delay: 0.8,
         }}
-        className="absolute right-[8%] bottom-[12%] h-[22rem] w-[22rem] rounded-full bg-indigo-500/12 blur-3xl will-change-transform"
+        className="absolute right-[8%] bottom-[12%] h-112 w-md rounded-full bg-indigo-500/12 blur-3xl will-change-transform"
       />
     </div>
   );
