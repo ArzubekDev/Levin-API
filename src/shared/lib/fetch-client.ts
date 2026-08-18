@@ -17,7 +17,7 @@ async function clearServerSession() {
   }
 }
 
-class FetchClient {
+export class FetchClient {
   private baseUrl: string;
 
   constructor(baseUrl: string) {

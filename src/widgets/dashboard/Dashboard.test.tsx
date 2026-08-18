@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import type { Project } from "@/entities/project";
 import { useSession } from "@/features/auth";
@@ -34,6 +35,13 @@ jest.mock("./DashboardContent", () => ({
 jest.mock("./DashboardEmpty", () => ({
   __esModule: true,
   default: () => <div data-testid="dashboard-empty">Empty</div>,
+}));
+
+jest.mock("sonner", () => ({
+  toast: {
+    error: jest.fn(),
+    success: jest.fn(),
+  },
 }));
 
 describe("Dashboard", () => {
@@ -114,7 +122,7 @@ describe("Dashboard", () => {
   });
 
   it("shows alert when limit reached and button clicked", () => {
-    window.alert = jest.fn();
+    toast.error = jest.fn();
     (useSession as jest.Mock).mockReturnValue({
       user: { projectsCount: 2, maxProjects: 2 },
       status: "authenticated",
@@ -124,7 +132,7 @@ describe("Dashboard", () => {
     render(<Dashboard />);
     fireEvent.click(screen.getByText("Новый проект"));
 
-    expect(window.alert).toHaveBeenCalledWith("Чтобы создавать больше проектов, нужна подписка.");
+    expect(toast.error).toHaveBeenCalledWith("Чтобы создавать больше проектов, нужна подписка.");
     expect(mockPush).not.toHaveBeenCalled();
   });
 });

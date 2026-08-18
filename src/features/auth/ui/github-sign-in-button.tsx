@@ -3,6 +3,7 @@
 import { FaGithub } from "react-icons/fa6";
 import { toast } from "sonner";
 
+import { assignLocation } from "@/features/auth/lib/assign-location";
 import { buildGitHubAuthorizeUrl } from "@/features/auth/lib/github-oauth";
 import { oauthButtonClassName } from "@/features/auth/ui/oauth-button-styles";
 import { Button } from "@/shared/components/ui/button";
@@ -15,7 +16,7 @@ interface GitHubSignInButtonProps {
 export function GitHubSignInButton({ className }: GitHubSignInButtonProps) {
   const handleSignIn = () => {
     try {
-      window.location.assign(buildGitHubAuthorizeUrl());
+      assignLocation(buildGitHubAuthorizeUrl());
     } catch (error) {
       console.error("GitHub OAuth is not configured:", error);
       toast.error("Вход через GitHub не настроен");

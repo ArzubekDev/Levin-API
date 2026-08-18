@@ -99,7 +99,9 @@ export function MockApi() {
           <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 md:p-6">
             <div className="space-y-2">
               <div className="flex items-end justify-between gap-3">
-                <Label htmlFor="schema-json">JSON Schema</Label>
+                <Label htmlFor="schema-json">
+                  Ставьте сюда свой JSON Schema <span className="text-red-400">*</span>
+                </Label>
                 <span className="text-xs text-slate-500">ключ = имя ресурса в URL</span>
               </div>
               <Textarea

@@ -1,10 +1,18 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { toast } from "sonner";
 
 import type { Project } from "@/entities/project";
 import { fetchClient } from "@/shared/lib/fetch-client";
 
 import DashboardContent from "./DashboardContent";
+
+jest.mock("sonner", () => ({
+  toast: {
+    error: jest.fn(),
+    success: jest.fn(),
+  },
+}));
 
 jest.mock("@tanstack/react-query", () => ({
   ...jest.requireActual("@tanstack/react-query"),
@@ -93,27 +101,25 @@ describe("DashboardContent", () => {
   });
 
   it("alerts the error message when delete fails with an Error", async () => {
-    window.alert = jest.fn();
     (fetchClient.delete as jest.Mock).mockRejectedValue(new Error("Нет доступа"));
 
     render(<DashboardContent projects={[makeProject()]} />);
     fireEvent.click(screen.getAllByRole("button")[1]);
 
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith("Нет доступа");
+      expect(toast.error).toHaveBeenCalledWith("Нет доступа");
     });
     expect(mockInvalidateQueries).not.toHaveBeenCalled();
   });
 
   it("alerts a fallback message when delete fails with a non-Error", async () => {
-    window.alert = jest.fn();
     (fetchClient.delete as jest.Mock).mockRejectedValue("network");
 
     render(<DashboardContent projects={[makeProject()]} />);
     fireEvent.click(screen.getAllByRole("button")[1]);
 
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith("Не удалось удалить проект");
+      expect(toast.error).toHaveBeenCalledWith("Не удалось удалить проект");
     });
     expect(mockInvalidateQueries).not.toHaveBeenCalled();
   });
