@@ -66,7 +66,6 @@ Browser
 
 - `API_INTERNAL_URL` (сервер): по умолчанию `http://localhost:4000`
 - Убрать rewrite `/backend → :4000` из `next.config` (его заменяет Route Handler)
-- `NEXT_PUBLIC_API_URL` больше не используется как базовый URL API в браузере (опционально — только для отображения)
 
 ## Вне скоупа
 

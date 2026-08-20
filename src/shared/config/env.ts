@@ -1,7 +1,7 @@
-export function getPublicApiBase(): string {
-  const configured = process.env.NEXT_PUBLIC_API_URL;
-  if (!configured || configured.startsWith("/")) {
-    return process.env.API_INTERNAL_URL || "http://localhost:4000";
+export function getPublicBackendUrl(): string {
+  const url = process.env.NEXT_PUBLIC_BACKEND_URL;
+  if (!url) {
+    throw new Error("NEXT_PUBLIC_BACKEND_URL is not configured");
   }
-  return configured.replace(/\/$/, "");
+  return url.replace(/\/$/, "");
 }

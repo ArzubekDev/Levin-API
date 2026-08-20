@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { getPublicBackendUrl } from "@/shared/config/env";
+
 import type { Project } from "../model/types";
 
 const COPIED_RESET_MS = 2000;
@@ -43,10 +45,12 @@ export function useApiTester(project: Project | undefined) {
   const resource = activeResource ?? resources[0] ?? FALLBACK_RESOURCE;
   const defaultLimit = project?.defaultLimit ?? FALLBACK_LIMIT;
   const effectiveLimit = limitOverride || String(defaultLimit);
-  // const apiUrl = project
-  //   ? `${getPublicApiBase()}/api/${project.endpointKey}/${resource}?limit=${effectiveLimit}`
-  //   : "";
+
   const apiUrl = project
+    ? `${getPublicBackendUrl()}/api/${project.endpointKey}/${resource}?limit=${effectiveLimit}`
+    : "";
+
+  const testUrl = project
     ? `/backend/api/${project.endpointKey}/${resource}?limit=${effectiveLimit}`
     : "";
 
@@ -79,7 +83,7 @@ export function useApiTester(project: Project | undefined) {
     setIsTesting(true);
     try {
       const started = performance.now();
-      const res = await fetch(apiUrl);
+      const res = await fetch(testUrl);
       const elapsed = Math.round(performance.now() - started);
       const data = await res.json();
       setResponseExpanded(false);
@@ -102,7 +106,7 @@ export function useApiTester(project: Project | undefined) {
     } finally {
       setIsTesting(false);
     }
-  }, [apiUrl]);
+  }, [testUrl]);
 
   return {
     resources,
