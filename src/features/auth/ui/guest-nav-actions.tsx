@@ -18,7 +18,10 @@ export function GuestNavActions() {
 
       <Link
         href="/login"
-        className={cn(buttonVariants(), "cursor-pointer bg-blue-600 text-white hover:bg-blue-700")}
+        className={cn(
+          buttonVariants(),
+          "hidden cursor-pointer bg-blue-600 text-white hover:bg-blue-700 sm:flex",
+        )}
       >
         Get started
       </Link>

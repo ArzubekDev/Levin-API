@@ -50,7 +50,7 @@ export function Dashboard() {
       <Container>
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Mock API-проекты</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">Mock API-проекты</h1>
             <p className="mt-1 text-slate-400">
               {user.projectsCount} / {user.maxProjects} проектов
             </p>

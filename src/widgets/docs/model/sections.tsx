@@ -248,13 +248,13 @@ GET http://localhost:4000/api/a7k9m2px/users?limit=5`}</Code>
         <Ul
           items={[
             <>
-              JWT хранится в HttpOnly cookie <code className="text-slate-300">levin_session</code> на
-              домене фронта. JavaScript его не читает.
+              JWT хранится в HttpOnly cookie <code className="text-slate-300">levin_session</code>{" "}
+              на домене фронта. JavaScript его не читает.
             </>,
             <>
-              Браузер ходит только на same-origin <code className="text-slate-300">/backend/*</code>.
-              BFF подставляет{" "}
-              <code className="text-slate-300">Authorization: Bearer …</code> к Nest API.
+              Браузер ходит только на same-origin <code className="text-slate-300">/backend/*</code>
+              . BFF подставляет <code className="text-slate-300">Authorization: Bearer …</code> к
+              Nest API.
             </>,
             "Срок жизни сессии — 7 дней",
           ]}

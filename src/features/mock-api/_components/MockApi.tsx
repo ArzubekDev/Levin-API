@@ -82,21 +82,23 @@ export function MockApi() {
         >
           <MockHead />
 
-          <aside className="space-y-4 lg:sticky lg:top-24 lg:row-span-2 lg:self-start">
+          <aside className="contents space-y-4 lg:sticky lg:top-24 lg:row-span-2 lg:block lg:self-start">
             <MockProjectName name={name} setName={setName} />
-            <MockSidebar
-              delay={delay}
-              setDelay={setDelay}
-              errorRate={errorRate}
-              setErrorRate={setErrorRate}
-              defaultLimit={defaultLimit}
-              setDefaultLimit={setDefaultLimit}
-              name={name}
-              isPending={createMutation.isPending}
-            />
+            <div className="order-last lg:order-0">
+              <MockSidebar
+                delay={delay}
+                setDelay={setDelay}
+                errorRate={errorRate}
+                setErrorRate={setErrorRate}
+                defaultLimit={defaultLimit}
+                setDefaultLimit={setDefaultLimit}
+                name={name}
+                isPending={createMutation.isPending}
+              />
+            </div>
           </aside>
 
-          <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 md:p-6">
+          <div className="rounded-2xl border-slate-800/80 sm:border sm:bg-slate-900/50 sm:p-5 md:p-6">
             <div className="space-y-2">
               <div className="flex items-end justify-between gap-3">
                 <Label htmlFor="schema-json">

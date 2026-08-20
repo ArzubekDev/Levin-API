@@ -53,7 +53,7 @@ export function MockSidebar({
 }: MockSidebarProps) {
   return (
     <div className="space-y-4">
-      <section className="space-y-4 rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 md:p-6">
+      <section className="space-y-4 rounded-2xl border-slate-800/80 sm:border sm:bg-slate-900/50 sm:p-5 md:p-6">
         <div>
           <h2 className="text-sm font-semibold tracking-wide text-slate-200 uppercase">
             Поведение ответа

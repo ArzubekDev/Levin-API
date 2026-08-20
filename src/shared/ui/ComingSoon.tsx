@@ -16,11 +16,9 @@ interface ComingSoonProps {
 export function ComingSoon({
   title = "В процессе разработки",
   description = "Скоро будет доступно",
-  progress = 11,
   className,
 }: ComingSoonProps) {
   const reducedMotion = useReducedMotion();
-  const clampedProgress = Math.min(100, Math.max(0, progress));
 
   return (
     <section
@@ -38,7 +36,7 @@ export function ComingSoon({
       />
 
       <div className="relative z-10 flex w-full max-w-md flex-col items-center text-center">
-        <div className="relative mb-10 flex items-center justify-center">
+        <div className="relative mb-10 hidden items-center justify-center sm:flex">
           <HorizonBeam />
 
           <motion.div
@@ -78,7 +76,9 @@ export function ComingSoon({
           className="w-full space-y-3"
         >
           <div className="relative flex flex-col items-center justify-center gap-3">
-            <HorizonBeam />
+            <div className="hidden sm:block">
+              <HorizonBeam />
+            </div>
 
             <p className="relative z-10 inline-flex items-center gap-2 rounded-md border border-amber-400/25 bg-amber-400/10 px-2.5 py-1 text-[11px] font-medium tracking-[0.14em] text-amber-100/90 uppercase shadow-[0_0_24px_-8px_rgb(251_191_36/45%)] backdrop-blur-sm">
               <span
@@ -91,49 +91,6 @@ export function ComingSoon({
             <h1 className="relative z-10 text-2xl font-semibold tracking-tight text-white md:text-3xl">
               {description}
             </h1>
-          </div>
-
-          <div className="mx-auto mt-8 w-full max-w-xs space-y-2.5">
-            <div className="flex items-end justify-between px-0.5">
-              <span className="text-[11px] font-medium tracking-wide text-slate-500 uppercase">
-                Прогресс
-              </span>
-              <span className="font-mono text-sm font-semibold text-blue-300 tabular-nums">
-                {clampedProgress}%
-              </span>
-            </div>
-
-            <div
-              role="progressbar"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={clampedProgress}
-              aria-label={`Прогресс разработки: ${clampedProgress}%`}
-              className="relative h-1.5 overflow-hidden rounded-full bg-slate-800/90 ring-1 ring-white/5"
-            >
-              <motion.div
-                className="absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-blue-600 via-sky-400 to-indigo-400"
-                initial={reducedMotion ? false : { width: 0 }}
-                animate={{ width: `${clampedProgress}%` }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              >
-                {!reducedMotion && (
-                  <motion.span
-                    aria-hidden
-                    className="absolute inset-0 bg-linear-to-r from-transparent via-white/35 to-transparent"
-                    animate={{ x: ["-120%", "160%"] }}
-                    transition={{
-                      duration: 1.6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      repeatDelay: 0.7,
-                    }}
-                  />
-                )}
-              </motion.div>
-            </div>
-
-            <p className="text-[11px] text-slate-600">завершено</p>
           </div>
         </motion.div>
       </div>

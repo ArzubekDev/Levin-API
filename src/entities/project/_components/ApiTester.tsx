@@ -39,7 +39,7 @@ export function ApiTester({
   onResponseExpandedChange,
 }: ApiConsoleProps) {
   return (
-    <section className="mb-6 space-y-4 rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 md:p-6">
+    <section className="mb-6 space-y-4 rounded-2xl border-slate-800/80 sm:border sm:bg-slate-900/50 sm:p-6">
       <div className="space-y-2">
         <Label className="text-slate-400">URL эндпоинта</Label>
         <div className="flex items-center gap-2">

@@ -38,13 +38,13 @@ export function MainContent() {
   };
 
   return (
-    <div className="relative z-10 mt-8 flex min-h-[calc(100vh-var(--layout-header-height))] items-center justify-center px-4 py-12">
+    <div className="relative z-10 flex items-center justify-center sm:mt-8 sm:min-h-[calc(100vh-var(--layout-header-height))] sm:px-4 sm:py-12">
       <div className="relative w-full max-w-md">
         <div
           aria-hidden
           className="pointer-events-none absolute -inset-px rounded-[1.35rem] bg-linear-to-b from-blue-500/20 via-transparent to-indigo-500/10 blur-sm"
         />
-        <div className="relative overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/45 shadow-[0_0_60px_-15px_rgba(59,130,246,0.28)] backdrop-blur-xl">
+        <div className="relative overflow-hidden border border-slate-800/60 bg-slate-900/45 shadow-[0_0_60px_-15px_rgba(59,130,246,0.28)] backdrop-blur-xl sm:rounded-2xl">
           <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blue-400/40 to-transparent" />
           <div className="space-y-8 p-8 sm:p-10">
             <div className="space-y-5 text-center">
