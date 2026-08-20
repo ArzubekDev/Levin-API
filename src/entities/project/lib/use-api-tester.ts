@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { getPublicApiBase } from "@/shared/config/env";
-
 import type { Project } from "../model/types";
 
 const COPIED_RESET_MS = 2000;
@@ -45,8 +43,11 @@ export function useApiTester(project: Project | undefined) {
   const resource = activeResource ?? resources[0] ?? FALLBACK_RESOURCE;
   const defaultLimit = project?.defaultLimit ?? FALLBACK_LIMIT;
   const effectiveLimit = limitOverride || String(defaultLimit);
+  // const apiUrl = project
+  //   ? `${getPublicApiBase()}/api/${project.endpointKey}/${resource}?limit=${effectiveLimit}`
+  //   : "";
   const apiUrl = project
-    ? `${getPublicApiBase()}/api/${project.endpointKey}/${resource}?limit=${effectiveLimit}`
+    ? `/backend/api/${project.endpointKey}/${resource}?limit=${effectiveLimit}`
     : "";
 
   const resetResponse = useCallback(() => {
