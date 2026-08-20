@@ -23,6 +23,7 @@ const HOP_BY_HOP = new Set([
   "host",
   "cookie",
   "content-length",
+  "content-encoding",
 ]);
 
 function buildUpstreamHeaders(request: NextRequest, token: string | undefined) {
