@@ -29,9 +29,7 @@ describe("assertSameOrigin", () => {
 
   it("allows mutating requests from the same origin", () => {
     expect(
-      assertSameOrigin(
-        mockRequest({ method: "POST", origin: "http://localhost:3000" }),
-      ).ok,
+      assertSameOrigin(mockRequest({ method: "POST", origin: "http://localhost:3000" })).ok,
     ).toBe(true);
   });
 
