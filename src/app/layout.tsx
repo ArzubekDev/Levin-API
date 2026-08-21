@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 
 import { Toaster } from "@/shared/components/ui/sonner";
 
@@ -46,7 +47,24 @@ export const metadata: Metadata = {
     title: "Levin API — Генератор REST API для практики и разработки",
     description:
       "Быстрое создание фейковых JSON эндпоинтов без бэкенда. Идеально для frontend-разработчиков и тестирования UI.",
-    images: ["https://levin-mock-api.vercel.app/og.png"],
+    images: ["https://levin-mock-api.vercel.app/og.jpg"],
+  },
+  keywords: [
+    "Levin API",
+    "генератор API",
+    "REST API генератор",
+    "mock API generator",
+    "создать фейковый API",
+    "REST API mock",
+    "JSON Schema",
+    "CRUD API",
+    "fake REST API",
+    "API для разработчиков",
+  ],
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
   verification: {
     google: "atbLR5scqz35Rs6futsoklRkAlFAE20GkjTfbla_qyw",
@@ -58,9 +76,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Levin API",
+    url: "https://levin-mock-api.vercel.app",
+  };
   return (
     <html lang="ru" className={`${inter.variable} ${jetbrains.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <Script id="schema-org" type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </Script>
         <QueryProvider>
           <GoogleProvider>{children}</GoogleProvider>
           <Toaster />
