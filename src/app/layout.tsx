@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     siteName: "Levin API",
     type: "website",
     url: "https://levin-mock-api.vercel.app",
+    images: [
+      {
+        url: "https://levin-mock-api.vercel.app/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Levin API Preview",
+      },
+    ],
   },
   verification: {
     google: "atbLR5scqz35Rs6futsoklRkAlFAE20GkjTfbla_qyw",
