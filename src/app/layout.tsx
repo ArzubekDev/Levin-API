@@ -26,8 +26,12 @@ export const metadata: Metadata = {
   description:
     "Быстрое создание фейковых JSON эндпоинтов без бэкенда. Идеально для frontend-разработчиков и тестирования UI.",
   openGraph: {
+    title: "Levin API — Генератор REST API для практики и разработки",
+    description:
+      "Быстрое создание фейковых JSON эндпоинтов без бэкенда. Идеально для frontend-разработчиков и тестирования UI.",
     siteName: "Levin API",
     type: "website",
+    url: "https://levin-mock-api.vercel.app",
   },
   verification: {
     google: "atbLR5scqz35Rs6futsoklRkAlFAE20GkjTfbla_qyw",
