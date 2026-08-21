@@ -25,7 +25,7 @@ export function DocsContent() {
             <h2 className="gradient-text mb-5 text-xl font-semibold md:text-3xl lg:text-2xl">
               {section.title}
             </h2>
-            <p className="text-sm leading-relaxed text-slate-400 md:text-lg">{section.content}</p>
+            {section.content}
           </section>
         </div>
       ))}

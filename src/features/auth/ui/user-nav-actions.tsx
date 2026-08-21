@@ -64,18 +64,32 @@ function MenuItem({
   children,
   onClick,
   variant = "default",
+  disabled = false,
 }: {
   href?: string;
   icon: ReactNode;
   children: ReactNode;
   onClick?: () => void;
   variant?: "default" | "danger";
+  disabled?: boolean;
 }) {
   const className = cn(
     "flex w-full cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
     variant === "default" && "text-muted-foreground hover:bg-muted hover:text-foreground",
     variant === "danger" && "text-destructive hover:bg-destructive/10 hover:text-destructive",
+    disabled && "pointer-events-none opacity-50 cursor-not-allowed",
   );
+
+  if (disabled) {
+    return (
+      <div className={className}>
+        <span className="flex size-4 shrink-0 items-center justify-center opacity-80 [&>svg]:size-4">
+          {icon}
+        </span>
+        {children}
+      </div>
+    );
+  }
 
   if (href) {
     return (
@@ -138,7 +152,7 @@ export function UserNavActions({ user, onSignOut }: UserNavActionsProps) {
         <div className="p-1.5">
           {USER_NAV_ITEMS.map((item) => {
             return (
-              <MenuItem key={item.href} href={item.href} icon={item.icon}>
+              <MenuItem key={item.href} href={item.href} icon={item.icon} disabled={item.disabled}>
                 {item.label}
               </MenuItem>
             );

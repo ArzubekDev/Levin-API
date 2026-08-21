@@ -18,9 +18,17 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+// app/layout.tsx
 export const metadata: Metadata = {
-  title: "Levin API — генератор API",
+  title: {
+    default: "Levin API — генератор API для практики и разработки",
+    template: "%s | Levin API",
+  },
   description: "Генератор API для практики и разработки",
+  openGraph: {
+    siteName: "Levin API",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
