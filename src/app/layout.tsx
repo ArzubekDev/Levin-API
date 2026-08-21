@@ -18,7 +18,6 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-// app/layout.tsx
 export const metadata: Metadata = {
   title: {
     default: "Levin API — генератор API для практики и разработки",
@@ -28,6 +27,9 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Levin API",
     type: "website",
+  },
+  verification: {
+    google: "atbLR5scqz35Rs6futsoklRkAlFAE20GkjTfbla_qyw",
   },
 };
 
