@@ -23,7 +23,8 @@ export const metadata: Metadata = {
     default: "Генератор REST API для практики и разработки",
     template: "%s | Levin API",
   },
-  description: "Генератор API для практики и разработки",
+  description:
+    "Быстрое создание фейковых JSON эндпоинтов без бэкенда. Идеально для frontend-разработчиков и тестирования UI.",
   openGraph: {
     siteName: "Levin API",
     type: "website",
