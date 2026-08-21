@@ -20,7 +20,7 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Levin API — генератор API для практики и разработки",
+    default: "Генератор REST API для практики и разработки",
     template: "%s | Levin API",
   },
   description: "Генератор API для практики и разработки",
