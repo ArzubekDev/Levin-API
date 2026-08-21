@@ -41,6 +41,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Levin API — Генератор REST API для практики и разработки",
+    description:
+      "Быстрое создание фейковых JSON эндпоинтов без бэкенда. Идеально для frontend-разработчиков и тестирования UI.",
+    images: ["https://levin-mock-api.vercel.app/og.png"],
+  },
   verification: {
     google: "atbLR5scqz35Rs6futsoklRkAlFAE20GkjTfbla_qyw",
   },
