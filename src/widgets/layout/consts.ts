@@ -15,6 +15,10 @@ export const HEADER_NAV_ITEMS = [
     label: "Mock API",
     href: "/mock-api",
   },
+  {
+    label: "Statistics",
+    href: "/stats",
+  },
 ] as const;
 
 export const HEADER_MOBILE_NAV_ITEMS = [
